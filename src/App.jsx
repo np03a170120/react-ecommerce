@@ -3,6 +3,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
+import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+const queryClient = new QueryClient();
 
 function App() {
   const isAuthenticated = false;
@@ -10,7 +12,13 @@ function App() {
     isAuthenticated ? PrivateRoutes() : {},
     ...PublicRoutes(),
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </>
+  );
 }
 
 export default App;

@@ -10,14 +10,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
+import { Loader2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { useSignUpLogin } from "../../api/requestProcessor";
 import { SchemaLogin } from "./user.schema";
-import { Loader2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const {
@@ -27,48 +26,15 @@ function Login() {
   } = useForm({
     resolver: yupResolver(SchemaLogin),
   });
-  const [loading, setLoading] = React.useState(false);
-  const BASE_URL = "https://ecommerce-backend-gr3e.onrender.com/api/";
 
-  const [status, setStatus] = React.useState("");
-  const { toast } = useToast();
-
-  const navigate = useNavigate();
+  const { mutate: loginUserMutation, isLoading: loading } = useSignUpLogin();
 
   const onSubmit = (formData) => {
     const userData = {
       email: formData.email,
       password: formData.password,
     };
-    try {
-      setLoading(true);
-      const response = axios
-        .post(`${BASE_URL}auth/login`, userData)
-        .then((response) => {
-          if (response.status === 200) {
-            localStorage.setItem(
-              "access_token",
-              response.data?.data.data.access_token
-            );
-            toast({
-              title: "Success",
-              description: response.data?.message,
-              variant: "success",
-            }),
-              navigate("/dashboard");
-          }
-        })
-        .catch((error) =>
-          toast({
-            title: "Error",
-            description: error.response.data.message,
-            variant: "destructive",
-          })
-        )
-        .finally(() => setLoading(false));
-    } catch (error) {
-      setStatus(error.message);
-    }
+    loginUserMutation(userData);
   };
 
   return (
@@ -120,8 +86,6 @@ function Login() {
         </Card>
       </div>
       <Toaster />
-
-      {status ? <h1>{status}</h1> : null}
     </>
   );
 }

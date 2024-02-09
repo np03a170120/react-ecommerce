@@ -9,19 +9,17 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Toaster } from "@/components/ui/toaster";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
+import { Loader2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { useSignUpUser } from "../../api/requestProcessor";
 import { SchemaSignUp } from "./user.schema";
-import { Toaster } from "@/components/ui/toaster";
-import { useToast } from "@/components/ui/use-toast";
-import { Loader2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
 
 function SignUp() {
   const {
-    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -29,12 +27,8 @@ function SignUp() {
     resolver: yupResolver(SchemaSignUp),
   });
 
-  const BASE_URL = "https://ecommerce-backend-gr3e.onrender.com/api/";
+  const { mutate: signUpUserMutation, isLoading: loading } = useSignUpUser();
 
-  const [status, setStatus] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const { toast } = useToast();
-  const navigate = useNavigate();
   const onSubmit = (formData) => {
     const userData = {
       fullName: formData.name,
@@ -42,31 +36,7 @@ function SignUp() {
       email: formData.email,
       password: formData.password,
     };
-    try {
-      setLoading(true);
-      const response = axios
-        .post(`${BASE_URL}auth/signup-user`, userData)
-
-        .then((response) =>
-          toast({
-            title: "Success",
-            description: response.data?.message,
-            variant: "success",
-          })
-        )
-        .then(() => reset())
-        .then(() => navigate("/login"))
-        .catch((error) =>
-          toast({
-            title: "Error",
-            description: error.response.data.message,
-            variant: "destructive",
-          })
-        )
-        .finally(() => setLoading(false));
-    } catch (error) {
-      setStatus(error.message);
-    }
+    signUpUserMutation(userData);
   };
 
   return (
@@ -132,8 +102,6 @@ function SignUp() {
         </Card>
       </div>
       <Toaster />
-
-      {status ? <h1>{status}</h1> : null}
     </>
   );
 }
