@@ -1,11 +1,16 @@
 import { Navigate } from "react-router-dom";
-import Login from "../app/user/Login";
-import SignUp from "../app/user/SignUp";
+import Login from "../app/User/Login";
+import SignUp from "../app/User/SignUp";
+import Home from "../app/Home/Home";
 
-export default function PublicRoutes() {
+export default function PublicRoutes({ isAuthenticated }) {
   return [
-    { path: "/login", element: <Login /> },
+    {
+      path: "/login",
+      element: isAuthenticated ? <Navigate to="/" replace /> : <Login />,
+    },
     { path: "/signup", element: <SignUp /> },
-    { path: "*", element: <Navigate to="/login" replace /> },
+    { path: "/", element: <Home isAuthenticated={isAuthenticated} /> },
+    { path: "*", element: <Navigate to="/" replace /> },
   ];
 }

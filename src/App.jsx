@@ -10,8 +10,8 @@ function App() {
   const queryClient = new QueryClient();
   const isAuthenticated = localStorage.getItem("access_token");
   const router = createBrowserRouter([
-    isAuthenticated ? PrivateRoutes() : {},
-    ...PublicRoutes(),
+    isAuthenticated ? PrivateRoutes({ isAuthenticated }) : {},
+    ...PublicRoutes({ isAuthenticated }),
   ]);
   return (
     <>

@@ -37,7 +37,8 @@ function Login() {
     };
     loginUserMutation(userData, {
       onSuccess: () => {
-        navigate("/dashboard");
+        navigate(0);
+        navigate("/");
       },
     });
   };

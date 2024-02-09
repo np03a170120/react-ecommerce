@@ -1,7 +1,6 @@
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "./axios";
 
 const userURLs = {
@@ -43,7 +42,6 @@ export const useSignUpUser = () => {
 };
 
 export const useSignUpLogin = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
 
   return useMutation({
