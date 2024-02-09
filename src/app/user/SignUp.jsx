@@ -27,7 +27,7 @@ function SignUp() {
     resolver: yupResolver(SchemaSignUp),
   });
 
-  const { mutate: signUpUserMutation, isLoading: loading } = useSignUpUser();
+  const { mutate: signUpUserMutation, isPending } = useSignUpUser();
 
   const onSubmit = (formData) => {
     const userData = {
@@ -85,7 +85,7 @@ function SignUp() {
               </div>
               <CardFooter className="mt-4 justify-center flex-col gap-2">
                 <Button type="submit">
-                  {loading === true ? (
+                  {isPending === true ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   ) : (
                     "Submit"

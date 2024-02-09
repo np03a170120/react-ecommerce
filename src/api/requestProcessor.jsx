@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import axiosClient from "./axios";
@@ -58,7 +58,6 @@ export const useSignUpLogin = () => {
         variant: "success",
       });
       localStorage.setItem("access_token", data.data?.data.data.access_token);
-      navigate("/dashboard");
     },
     onError: (error) => {
       toast({

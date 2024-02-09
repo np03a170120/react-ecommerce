@@ -1,13 +1,14 @@
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-const queryClient = new QueryClient();
 
 function App() {
-  const isAuthenticated = false;
+  const queryClient = new QueryClient();
+  const isAuthenticated = localStorage.getItem("access_token");
   const router = createBrowserRouter([
     isAuthenticated ? PrivateRoutes() : {},
     ...PublicRoutes(),
@@ -16,6 +17,7 @@ function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>
   );

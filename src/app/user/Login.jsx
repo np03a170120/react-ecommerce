@@ -14,7 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Loader2 } from "lucide-react";
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSignUpLogin } from "../../api/requestProcessor";
 import { SchemaLogin } from "./user.schema";
 
@@ -27,14 +27,19 @@ function Login() {
     resolver: yupResolver(SchemaLogin),
   });
 
-  const { mutate: loginUserMutation, isLoading: loading } = useSignUpLogin();
+  const { mutate: loginUserMutation, isPending } = useSignUpLogin();
+  const navigate = useNavigate();
 
   const onSubmit = (formData) => {
     const userData = {
       email: formData.email,
       password: formData.password,
     };
-    loginUserMutation(userData);
+    loginUserMutation(userData, {
+      onSuccess: () => {
+        navigate("/dashboard");
+      },
+    });
   };
 
   return (
@@ -71,7 +76,7 @@ function Login() {
               </div>
               <CardFooter className="mt-4 justify-center flex-col gap-2">
                 <Button type="submit" className="text-center">
-                  {loading === true ? (
+                  {isPending === true ? (
                     <Loader2 className=" h-4 animate-spin" />
                   ) : (
                     "Submit"
