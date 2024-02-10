@@ -28,6 +28,7 @@ import { CreditCard, LogOut, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 import avatar from "../../assets/image/avatar.jpeg";
+import logo from "../../assets/image/logo.png";
 import AddProduct from "../Product/AddProduct";
 
 export default function Home({ loginDetail }) {
@@ -40,7 +41,7 @@ export default function Home({ loginDetail }) {
   return (
     <div className="container bg-white drop-shadow-md rounded-lg ">
       <ResizablePanelGroup direction="horizontal" className="w-full ">
-        <ResizablePanel defaultSize={10}>
+        <ResizablePanel defaultSize={8}>
           <div className="flex h-[100vh] items-center justify-center p-6">
             <span className="font-semibold">list of the categories</span>
           </div>
@@ -48,9 +49,9 @@ export default function Home({ loginDetail }) {
         <ResizableHandle />
         <ResizablePanel defaultSize={50}>
           <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={8}>
+            <ResizablePanel defaultSize={12}>
               <div className="flex h-full items-center justify-between p-6">
-                <span className="font-semibold">x_Naive_x</span>
+                <img className="h-[90px]" src={logo} alt="" />
                 <div className="flex w-full max-w-[40rem] items-center space-x-2">
                   <Input type="email" placeholder="Search..." />
                   <Button variant="secondary">
