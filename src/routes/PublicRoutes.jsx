@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
+import Home from "../app/Home/Home";
 import Login from "../app/user/Login";
 import SignUp from "../app/user/SignUp";
-import Home from "../app/Home/Home";
 
 export default function PublicRoutes({ loginDetail }) {
   return [
@@ -11,7 +11,7 @@ export default function PublicRoutes({ loginDetail }) {
     },
     {
       path: "/signup",
-      element: loginDetail ? <Navigate to="/" replace /> : <Login />,
+      element: loginDetail ? <Navigate to="/" replace /> : <SignUp />,
     },
     {
       path: "/",
