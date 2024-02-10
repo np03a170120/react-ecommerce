@@ -41,7 +41,7 @@ function SignUp() {
 
   return (
     <>
-      <div className="flex justify-center items-center ">
+      <div className="flex justify-center items-center h-[100vh]">
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Sign Up </CardTitle>

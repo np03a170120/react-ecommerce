@@ -1,6 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Karla:wght@400;500;600;700&display=swap");
 #root {
-  max-width: 85vw;
+  /* max-width: 85vw; */
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background: #f7f7f7;
 }
