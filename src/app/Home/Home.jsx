@@ -10,22 +10,32 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { Badge } from "@/components/ui/badge";
+
 import { MagnifyingGlass } from "@phosphor-icons/react";
 import { CreditCard, LogOut, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Home({ isAuthenticated }) {
+import avatar from "../../assets/image/avatar.jpeg";
+
+export default function Home({ loginDetail }) {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear("access_token");
     navigate(0);
   };
+
   return (
     <ResizablePanelGroup
       direction="horizontal"
@@ -50,13 +60,13 @@ export default function Home({ isAuthenticated }) {
               </div>
               <div className="flex gap-3">
                 <Button variant="plain">
-                  {!isAuthenticated ? (
+                  {!loginDetail ? (
                     <>
                       <Link to="/login">Login</Link>
                     </>
                   ) : null}
                 </Button>
-                {!isAuthenticated ? (
+                {!loginDetail ? (
                   <>
                     <Button>
                       <Link to="/signup"> Sign Up</Link>
@@ -64,37 +74,57 @@ export default function Home({ isAuthenticated }) {
                   </>
                 ) : (
                   <>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Avatar>
-                          <AvatarImage src="https://github.com/shadcn.png" />
-                          <AvatarFallback>Season</AvatarFallback>
-                        </Avatar>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
+                    <div className="flex gap-2 items-center">
+                      <HoverCard>
+                        <HoverCardTrigger
+                          align="start"
+                          className="cursor-pointer hover:underline text-md"
+                        >
+                          <div>
+                            <Badge variant="default" className={"text-xs"}>
+                              {loginDetail.isVerified ? "verified" : "pending"}
+                            </Badge>
+                          </div>
+                          {loginDetail.fullName}
+                        </HoverCardTrigger>
+                        <HoverCardContent align="start">
+                          <ul className="text-justify text-sm">
+                            <li>{loginDetail.mobileNum}</li>
+                            <li> {loginDetail.email}</li>
+                          </ul>
+                        </HoverCardContent>
+                      </HoverCard>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Avatar className={"cursor-pointer"}>
+                            <AvatarImage src={avatar} />
+                            <AvatarFallback>Season</AvatarFallback>
+                          </Avatar>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56 ">
+                          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuGroup>
+                            <DropdownMenuItem>
+                              <User className="mr-2 h-4 w-4" />
+                              <span>Profile</span>
+                              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                              <CreditCard className="mr-2 h-4 w-4" />
+                              <span>Billing</span>
+                              <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                            </DropdownMenuItem>
+                          </DropdownMenuGroup>
+                          <DropdownMenuSeparator />
                           <DropdownMenuItem>
-                            <User className="mr-2 h-4 w-4" />
-                            <span>Profile</span>
-                            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span onClick={handleLogout}>Log out</span>
+                            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
                           </DropdownMenuItem>
-                          <DropdownMenuItem>
-                            <CreditCard className="mr-2 h-4 w-4" />
-                            <span>Billing</span>
-                            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                          </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                        <DropdownMenuSeparator />
-
-                        <DropdownMenuItem>
-                          <LogOut className="mr-2 h-4 w-4" />
-                          <span onClick={handleLogout}>Log out</span>
-                          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </>
                 )}
               </div>

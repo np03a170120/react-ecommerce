@@ -3,14 +3,17 @@ import Login from "../app/User/Login";
 import SignUp from "../app/User/SignUp";
 import Home from "../app/Home/Home";
 
-export default function PublicRoutes({ isAuthenticated }) {
+export default function PublicRoutes({ loginDetail }) {
   return [
     {
       path: "/login",
-      element: isAuthenticated ? <Navigate to="/" replace /> : <Login />,
+      element: loginDetail ? <Navigate to="/" replace /> : <Login />,
     },
     { path: "/signup", element: <SignUp /> },
-    { path: "/", element: <Home isAuthenticated={isAuthenticated} /> },
+    {
+      path: "/",
+      element: <Home loginDetail={loginDetail} />,
+    },
     { path: "*", element: <Navigate to="/" replace /> },
   ];
 }

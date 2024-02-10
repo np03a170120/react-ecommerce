@@ -55,7 +55,15 @@ export const useSignUpLogin = () => {
         description: data.data.message,
         variant: "success",
       });
-      localStorage.setItem("access_token", data.data?.data.data.access_token);
+      const loginDetailRaw = {
+        fullName: data.data?.data.data.fullName,
+        email: data.data?.data.data.email,
+        access_token: data.data?.data.data.access_token,
+        isVerified: data.data?.data.data.isVerified,
+      };
+      console.log(data);
+      const loginDetail = JSON.stringify(loginDetailRaw);
+      localStorage.setItem("loginDetail", loginDetail);
     },
     onError: (error) => {
       toast({

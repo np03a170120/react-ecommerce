@@ -8,10 +8,11 @@ import PublicRoutes from "./routes/PublicRoutes";
 
 function App() {
   const queryClient = new QueryClient();
-  const isAuthenticated = localStorage.getItem("access_token");
+  const loginDetailRaw = localStorage.getItem("loginDetail");
+  const loginDetail = JSON.parse(loginDetailRaw);
   const router = createBrowserRouter([
-    isAuthenticated ? PrivateRoutes({ isAuthenticated }) : {},
-    ...PublicRoutes({ isAuthenticated }),
+    loginDetail ? PrivateRoutes({ loginDetail }) : {},
+    ...PublicRoutes({ loginDetail }),
   ]);
   return (
     <>
