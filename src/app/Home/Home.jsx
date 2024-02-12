@@ -60,7 +60,7 @@ export default function Home({ loginDetail }) {
                 </div>
 
                 <div className="flex gap-3 items-center">
-                  {loginDetail && <AddProduct />}
+                  {loginDetail && <AddProduct loginDetail={loginDetail} />}
                   <Button variant="plain">
                     {!loginDetail ? (
                       <>

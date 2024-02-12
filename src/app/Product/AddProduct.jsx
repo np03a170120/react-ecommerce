@@ -10,18 +10,45 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { PlusCircle } from "@phosphor-icons/react";
-import React from "react";
+import { useForm } from "react-hook-form";
 
-const AddProduct = () => {
+import { Loader2 } from "lucide-react";
+import React from "react";
+import { usePostProduct } from "../../api/requestProcessor";
+import { uploadProduct } from "./product.schema";
+
+const AddProduct = ({ loginDetail }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(uploadProduct),
+  });
+
+  const { mutate: postProductMutation, isPending } = usePostProduct();
+
+  console.log(loginDetail);
+
+  const onSubmit = (data) => {
+    const formData = new FormData();
+    formData.append("file", data.file[0]);
+
+    const productData = {
+      name: data.name,
+      quantity: data.quantity,
+      category: data.category,
+      price: data.price,
+      description: data.description,
+      description: data.description,
+      shortDescription: data.shortDescription,
+      productImages: data.file,
+    };
+    postProductMutation({ productData, loginDetail });
+  };
   return (
     <>
       <Dialog>
@@ -38,19 +65,19 @@ const AddProduct = () => {
               platform restrictions to avoid warnings.
             </DialogDescription>
           </DialogHeader>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" />
+                <Input {...register("name")} id="name" />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Quantity</Label>
-                <Input id="name" />
+                <Input {...register("quantity")} id="quantity" />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Category</Label>
-                <Select>
+                {/* <Select>
                   <SelectTrigger id="framework">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
@@ -60,21 +87,35 @@ const AddProduct = () => {
                     <SelectItem value="astro">Astro</SelectItem>
                     <SelectItem value="nuxt">Nuxt.js</SelectItem>
                   </SelectContent>
-                </Select>
+                </Select> */}
+                <Input {...register("category")} id="category" />
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Price</Label>
-                <Input id="name" />
+                <Input {...register("price")} id="category" />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="name">Description</Label>
-                <Textarea />
+                <Label htmlFor="description">Description</Label>
+                <Textarea {...register("description")} />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="shortDescription"> Short Description</Label>
+                <Textarea {...register("shortDescription")} />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <input type="file" {...register("file")} />
               </div>
             </div>
+            <DialogFooter>
+              <Button type="submit">
+                {isPending === true ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "Save"
+                )}
+              </Button>
+            </DialogFooter>
           </form>
-          <DialogFooter>
-            <Button type="submit">Save</Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

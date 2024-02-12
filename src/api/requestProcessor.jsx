@@ -12,6 +12,10 @@ const userURLs = {
     url: "auth/login",
     key: "LOGIN_KEY",
   },
+  postProduct: {
+    url: "add-product",
+    key: "POST_PRODUCT_KEY",
+  },
 };
 
 export const useSignUpUser = () => {
@@ -43,7 +47,6 @@ export const useSignUpUser = () => {
 
 export const useSignUpLogin = () => {
   const { toast } = useToast();
-
   return useMutation({
     mutationKey: userURLs.loginUser.key,
     mutationFn(userData) {
@@ -64,6 +67,34 @@ export const useSignUpLogin = () => {
       console.log(data);
       const loginDetail = JSON.stringify(loginDetailRaw);
       localStorage.setItem("loginDetail", loginDetail);
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
+  });
+};
+
+export const usePostProduct = () => {
+  return useMutation({
+    mutationKey: userURLs.postProduct.key,
+    mutationFn({ productData, loginDetail }) {
+      return axiosClient.post(userURLs.postProduct.url, productData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${loginDetail.access_token}`,
+        },
+      });
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data.data.message,
+        variant: "success",
+      });
     },
     onError: (error) => {
       toast({
