@@ -1,6 +1,6 @@
 import { useToast } from "@/components/ui/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import axiosClient from "./axios";
 
 const userURLs = {
@@ -15,6 +15,10 @@ const userURLs = {
   postProduct: {
     url: "add-product",
     key: "POST_PRODUCT_KEY",
+  },
+  categoriesList: {
+    url: "categories",
+    key: "CATEGORIES_LIST_KEY",
   },
 };
 
@@ -63,8 +67,8 @@ export const useSignUpLogin = () => {
         email: data.data?.data.data.email,
         access_token: data.data?.data.data.access_token,
         isVerified: data.data?.data.data.isVerified,
+        _id: data.data?.data.data._id,
       };
-      console.log(data);
       const loginDetail = JSON.stringify(loginDetailRaw);
       localStorage.setItem("loginDetail", loginDetail);
     },
@@ -79,6 +83,7 @@ export const useSignUpLogin = () => {
 };
 
 export const usePostProduct = () => {
+  const { toast } = useToast();
   return useMutation({
     mutationKey: userURLs.postProduct.key,
     mutationFn({ productData, loginDetail }) {
@@ -103,5 +108,16 @@ export const usePostProduct = () => {
         variant: "destructive",
       });
     },
+  });
+};
+
+export const useCategoryList = () => {
+  return useQuery({
+    queryFn: () => axiosClient.get(userURLs.categoriesList.url),
+    queryKey: [userURLs.categoriesList.key],
+    refetchOnWindowFocus: false,
+    refetchOnmount: false,
+    refetchOnReconnect: false,
+    retry: false,
   });
 };

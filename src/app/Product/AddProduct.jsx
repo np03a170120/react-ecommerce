@@ -14,14 +14,24 @@ import { Textarea } from "@/components/ui/textarea";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PlusCircle } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 import { Loader2 } from "lucide-react";
 import React from "react";
-import { usePostProduct } from "../../api/requestProcessor";
+import { useCategoryList, usePostProduct } from "../../api/requestProcessor";
 import { uploadProduct } from "./product.schema";
 
 const AddProduct = ({ loginDetail }) => {
   const {
+    getValues,
     register,
     handleSubmit,
     formState: { errors },
@@ -31,24 +41,35 @@ const AddProduct = ({ loginDetail }) => {
 
   const { mutate: postProductMutation, isPending } = usePostProduct();
 
-  console.log(loginDetail);
-
   const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("file", data.file[0]);
-
+    formData.append("productImages", data.productImages[0]);
     const productData = {
+      userId: loginDetail._id,
       name: data.name,
       quantity: data.quantity,
       category: data.category,
       price: data.price,
       description: data.description,
-      description: data.description,
       shortDescription: data.shortDescription,
-      productImages: data.file,
+      productImages: data.productImages,
     };
-    postProductMutation({ productData, loginDetail });
+    postProductMutation(
+      { productData, loginDetail },
+      {
+        onError: (error) => {
+          toast({
+            title: "Error",
+            description: error.response.data.message,
+            variant: "destructive",
+          });
+        },
+      }
+    );
   };
+
+  const { data } = useCategoryList();
+
   return (
     <>
       <Dialog>
@@ -77,18 +98,25 @@ const AddProduct = ({ loginDetail }) => {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Category</Label>
-                {/* <Select>
+                {/* <Select {...register("category")} id="category">
                   <SelectTrigger id="framework">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
                   <SelectContent position="popper">
-                    <SelectItem value="next">Next.js</SelectItem>
-                    <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                    <SelectItem value="astro">Astro</SelectItem>
-                    <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                    {data?.data.data.map((item) => (
+                      <SelectItem key={item.id} value={item._id}>
+                        {item.categoryName}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select> */}
-                <Input {...register("category")} id="category" />
+
+                <select {...register("category")}>
+                  {data?.data.data.map((item) => (
+                    <option value={item._id}>{item.categoryName}</option>
+                  ))}
+                </select>
+                {/* <Input {...register("category")} id="category" /> */}
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Price</Label>
@@ -103,7 +131,7 @@ const AddProduct = ({ loginDetail }) => {
                 <Textarea {...register("shortDescription")} />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <input type="file" {...register("file")} />
+                <input type="file" {...register("productImages")} />
               </div>
             </div>
             <DialogFooter>
