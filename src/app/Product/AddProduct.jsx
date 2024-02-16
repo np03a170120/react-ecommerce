@@ -1,14 +1,6 @@
 import { Button } from "@/components/ui/button";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -31,7 +23,6 @@ import { uploadProduct } from "./product.schema";
 
 const AddProduct = ({ loginDetail }) => {
   const {
-    getValues,
     register,
     handleSubmit,
     formState: { errors },
