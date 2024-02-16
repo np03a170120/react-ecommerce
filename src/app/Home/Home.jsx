@@ -43,8 +43,8 @@ export default function Home({ loginDetail }) {
   const { data } = useProductList();
 
   return (
-    <div className="container bg-white drop-shadow-md rounded-lg ">
-      <ResizablePanelGroup direction="horizontal" className="w-full ">
+    <div className="container  bg-white drop-shadow-md rounded-lg ">
+      <ResizablePanelGroup direction="horizontal" className="w-full my-6">
         <ResizablePanel defaultSize={8}>
           <div className="flex h-[100vh] items-center justify-center p-6">
             <span className="font-semibold">list of the categories</span>
@@ -53,7 +53,7 @@ export default function Home({ loginDetail }) {
         <ResizableHandle />
         <ResizablePanel defaultSize={50}>
           <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={8}>
+            <ResizablePanel defaultSize={12}>
               <div className="flex h-full items-center justify-between ">
                 <img className="h-[90px]" src={logo} alt="" />
                 <div className="flex w-full max-w-[40rem] items-center space-x-2">

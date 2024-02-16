@@ -24,6 +24,10 @@ const userURLs = {
     url: "products",
     key: "PRODUCTS_LIST_KEY",
   },
+  getProductDetail: {
+    url: "product/details/",
+    key: "PRODUCT_DETAIL_KEY",
+  },
 };
 
 export const useSignUpUser = () => {
@@ -125,6 +129,7 @@ export const useCategoryList = () => {
     retry: false,
   });
 };
+
 export const useProductList = () => {
   return useQuery({
     queryFn: () => axiosClient.get(userURLs.getProducts.url),
@@ -133,5 +138,16 @@ export const useProductList = () => {
     refetchOnmount: false,
     refetchOnReconnect: false,
     retry: false,
+  });
+};
+
+export const fetchProductDetail = ({ userId, productId }) => {
+  return useQuery({
+    queryFn: () =>
+      axiosClient.get(`${userURLs.getProductDetail.url}${userId}/${productId}`),
+    queryKey: [userURLs.getProductDetail.key],
+    refetchOnWindowFocus: false,
+    refetchOnmount: true,
+    refetchOnReconnect: false,
   });
 };
