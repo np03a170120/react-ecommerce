@@ -14,18 +14,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { PlusCircle } from "@phosphor-icons/react";
 import { useForm } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import { Loader2 } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useCategoryList, usePostProduct } from "../../api/requestProcessor";
 import { uploadProduct } from "./product.schema";
 
@@ -40,10 +31,11 @@ const AddProduct = ({ loginDetail }) => {
   });
 
   const { mutate: postProductMutation, isPending } = usePostProduct();
+  const [open, setOpen] = useState(false);
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("productImages", data.productImages[0]);
+    formData.append("productImages", data.productImages);
     const productData = {
       userId: loginDetail._id,
       name: data.name,
@@ -52,17 +44,13 @@ const AddProduct = ({ loginDetail }) => {
       price: data.price,
       description: data.description,
       shortDescription: data.shortDescription,
-      productImages: data.productImages,
+      productImages: data.productImages[0],
     };
     postProductMutation(
       { productData, loginDetail },
       {
-        onError: (error) => {
-          toast({
-            title: "Error",
-            description: error.response.data.message,
-            variant: "destructive",
-          });
+        onSuccess: () => {
+          setOpen(false);
         },
       }
     );
@@ -72,7 +60,7 @@ const AddProduct = ({ loginDetail }) => {
 
   return (
     <>
-      <Dialog>
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button>
             <PlusCircle size={18} className="mr-1" /> Add Product
@@ -98,25 +86,11 @@ const AddProduct = ({ loginDetail }) => {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="framework">Category</Label>
-                {/* <Select {...register("category")} id="category">
-                  <SelectTrigger id="framework">
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    {data?.data.data.map((item) => (
-                      <SelectItem key={item.id} value={item._id}>
-                        {item.categoryName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select> */}
-
                 <select {...register("category")}>
                   {data?.data.data.map((item) => (
                     <option value={item._id}>{item.categoryName}</option>
                   ))}
                 </select>
-                {/* <Input {...register("category")} id="category" /> */}
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Price</Label>

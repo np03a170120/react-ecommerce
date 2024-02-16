@@ -20,6 +20,10 @@ const userURLs = {
     url: "categories",
     key: "CATEGORIES_LIST_KEY",
   },
+  getProducts: {
+    url: "products",
+    key: "PRODUCTS_LIST_KEY",
+  },
 };
 
 export const useSignUpUser = () => {
@@ -115,6 +119,16 @@ export const useCategoryList = () => {
   return useQuery({
     queryFn: () => axiosClient.get(userURLs.categoriesList.url),
     queryKey: [userURLs.categoriesList.key],
+    refetchOnWindowFocus: false,
+    refetchOnmount: false,
+    refetchOnReconnect: false,
+    retry: false,
+  });
+};
+export const useProductList = () => {
+  return useQuery({
+    queryFn: () => axiosClient.get(userURLs.getProducts.url),
+    queryKey: [userURLs.getProducts.key],
     refetchOnWindowFocus: false,
     refetchOnmount: false,
     refetchOnReconnect: false,

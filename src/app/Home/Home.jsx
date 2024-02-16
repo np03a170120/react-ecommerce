@@ -30,6 +30,8 @@ import { Link, useNavigate } from "react-router-dom";
 import avatar from "../../assets/image/avatar.jpeg";
 import logo from "../../assets/image/logo.png";
 import AddProduct from "../Product/AddProduct";
+import DashboardProducts from "../Product/DashboardProducts";
+import { useProductList } from "../../api/requestProcessor";
 
 export default function Home({ loginDetail }) {
   const navigate = useNavigate();
@@ -37,6 +39,8 @@ export default function Home({ loginDetail }) {
     localStorage.clear("loginDetail");
     navigate(0);
   };
+
+  const { data } = useProductList();
 
   return (
     <div className="container bg-white drop-shadow-md rounded-lg ">
@@ -49,8 +53,8 @@ export default function Home({ loginDetail }) {
         <ResizableHandle />
         <ResizablePanel defaultSize={50}>
           <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={12}>
-              <div className="flex h-full items-center justify-between p-6">
+            <ResizablePanel defaultSize={8}>
+              <div className="flex h-full items-center justify-between ">
                 <img className="h-[90px]" src={logo} alt="" />
                 <div className="flex w-full max-w-[40rem] items-center space-x-2">
                   <Input type="email" placeholder="Search..." />
@@ -140,8 +144,21 @@ export default function Home({ loginDetail }) {
             </ResizablePanel>
             <ResizableHandle />
             <ResizablePanel defaultSize={100}>
-              <div className="flex h-full w-full items-center justify-center p-6">
-                <span className="font-semibold">Products here</span>
+              <div className="container my-8">
+                <div class="grid grid-cols-4 gap-4">
+                  {data?.data.data.map((data) => {
+                    const product = data;
+                    // console.log(loginDetail, "login details");
+                    return (
+                      <>
+                        <DashboardProducts
+                          product={product}
+                          loginDetail={loginDetail}
+                        />
+                      </>
+                    );
+                  })}
+                </div>
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>
