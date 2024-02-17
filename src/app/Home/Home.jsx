@@ -1,10 +1,12 @@
-import { Loader2 } from "lucide-react";
+import { Suspense, lazy } from "react";
 import GlobalLayout from "../../Layout/GlobalLayout";
 import { useProductList } from "../../api/requestProcessor";
-import DashboardProducts from "../Product/DashboardProducts";
+import { DashboardProductsFallbackLoader } from "../../components/FallbackLoader/DashboardProductsFallbackLoader";
+
+import DashboardProducts from "../../app/Product/DashboardProducts";
 
 export default function Home({ loginDetail }) {
-  const { data, isPending } = useProductList();
+  const { data, isError, isFetching, isPending } = useProductList();
 
   return (
     <>
@@ -15,24 +17,24 @@ export default function Home({ loginDetail }) {
               const product = data;
               return (
                 <>
-                  {!isPending ? (
-                    <>
-                      {" "}
-                      <DashboardProducts
-                        product={product}
-                        loginDetail={loginDetail}
-                      />
-                    </>
+                  {isFetching || isPending ? (
+                    <DashboardProductsFallbackLoader />
                   ) : (
-                    <>
-                      <Loader2 className=" h-4 animate-spin" />
-                    </>
+                    <DashboardProducts
+                      product={product}
+                      loginDetail={loginDetail}
+                    />
                   )}
                 </>
               );
             })}
           </div>
         </div>
+        {isError && (
+          <>
+            <h1>Error</h1>
+          </>
+        )}
       </GlobalLayout>
     </>
   );

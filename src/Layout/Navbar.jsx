@@ -38,7 +38,7 @@ const Navbar = ({ loginDetail }) => {
     <>
       <div className="flex h-full items-center justify-between ">
         <img
-          className="h-[140px]"
+          className="h-[140px] cursor-pointer"
           onClick={() => navigate("/")}
           src={logo}
           alt=""

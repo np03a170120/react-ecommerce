@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import { fetchProductDetail } from "../../api/requestProcessor";
 
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import GlobalLayout from "../../Layout/GlobalLayout";
-import { Loader2 } from "lucide-react";
+import ProductDetailFallbackLoader from "../../components/FallbackLoader/ProductDetailFallbackLoader";
 
 const ProductDetail = () => {
   let { userId, productId } = useParams();
@@ -22,10 +22,9 @@ const ProductDetail = () => {
     productId,
   });
   const productDetail = data?.data.data;
-
   return (
     <GlobalLayout>
-      {!isPending && isFetchedAfterMount ? (
+      {isFetchedAfterMount || isPending ? (
         <>
           <div className="grid md:grid-cols-2 items-start max-w-6xl px-4 mx-auto gap-6 lg:gap-12 py-6">
             <div className="grid gap-4">
@@ -86,9 +85,7 @@ const ProductDetail = () => {
           </div>
         </>
       ) : (
-        <>
-          <Loader2 className=" text-center h-4 animate-spin" />
-        </>
+        <ProductDetailFallbackLoader />
       )}
     </GlobalLayout>
   );

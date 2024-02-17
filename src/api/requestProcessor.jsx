@@ -131,6 +131,7 @@ export const useCategoryList = () => {
 };
 
 export const useProductList = () => {
+  const { toast } = useToast();
   return useQuery({
     queryFn: () => axiosClient.get(userURLs.getProducts.url),
     queryKey: [userURLs.getProducts.key],
@@ -138,6 +139,14 @@ export const useProductList = () => {
     refetchOnmount: false,
     refetchOnReconnect: false,
     retry: false,
+    throwOnError: (error) => {
+      // toast({
+      //   title: "Error",
+      //   description: error,
+      //   variant: "destructive",
+      // });
+      console.log(error);
+    },
   });
 };
 
