@@ -52,10 +52,12 @@ const Navbar = ({ loginDetail }) => {
 
         <div className="flex gap-3 items-center">
           {loginDetail && <AddProduct loginDetail={loginDetail} />}
-          <Button variant="plain">
+          <Button variant="link">
             {!loginDetail ? (
               <>
-                <Link to="/login">Login</Link>
+                <Link className="font-medium" to="/login">
+                  Login
+                </Link>
               </>
             ) : null}
           </Button>
@@ -89,9 +91,9 @@ const Navbar = ({ loginDetail }) => {
                       </DropdownMenuItem>
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout}>
                       <LogOut className="mr-2 h-4 w-4" />
-                      <span onClick={handleLogout}>Log out</span>
+                      <span>Log out</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

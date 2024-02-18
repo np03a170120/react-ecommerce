@@ -159,9 +159,7 @@ export const fetchProductDetail = ({ userId, productId }) => {
         `${userURLs.getProductDetail.url}${userId}/${productId}`
       ),
     queryKey: [userURLs.getProductDetail.key],
-    refetchOnWindowFocus: false,
-    refetchOnmount: true,
-    refetchOnReconnect: false,
+    cacheTime: 0,
     onError: (error) => {
       toast({
         title: "Error",

@@ -21,15 +21,13 @@ export default function DashboardProducts(product) {
                 src={productDetail?.productImages[0].url}
               />
               <div className="text-left flex flex-col gap-1 leading-none px-4 py-6">
-                <h3 className="text-sm font-semibold leading-none">
+                <h3 className="text-sm font-medium leading-none">
                   {productDetail?.name}
                 </h3>
                 <p className="text-xs text-muted-foreground dark:text-muted-background">
                   Available Quantity: {productDetail?.quantity}
                 </p>
-                <p className="text-sm font-semibold">
-                  Rs.{productDetail?.price}
-                </p>
+                <p className="text-sm font-medium">Rs.{productDetail?.price}</p>
                 {/* <div className=" text-sm">
                 <Button size="sm">View</Button>
               </div> */}

@@ -1,16 +1,10 @@
-import React from "react";
+import { Input } from "@/components/ui/input";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProductDetail } from "../../api/requestProcessor";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import GlobalLayout from "../../Layout/GlobalLayout";
 import ProductDetailFallbackLoader from "../../components/FallbackLoader/ProductDetailFallbackLoader";
@@ -23,23 +17,48 @@ const ProductDetail = () => {
     productId,
   });
   const productDetail = data?.data.data;
+  const [quantity, seQuantity] = useState(1);
+
+  const handleIncreaseQuantity = () => {
+    const allowIncrease = quantity < productDetail?.quantity;
+    if (allowIncrease) {
+      seQuantity(quantity + 1);
+    }
+  };
+  const handleDecreseQuantity = () => {
+    const allowDecrease = quantity > 1;
+    if (allowDecrease) {
+      seQuantity(quantity - 1);
+    }
+  };
+  const handleInputQuantity = (e) => {
+    const inputParse = parseInt(e.target.value);
+    if (inputParse > 0 && inputParse <= productDetail?.quantity) {
+      seQuantity(inputParse);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    const key = e.key;
+    if (key === "Backspace" || key === "Delete") {
+      seQuantity(1);
+    }
+  };
+
+  const [availableQuantity, setAvailableQuantity] = useState();
+  useEffect(() => {
+    setAvailableQuantity(productDetail?.quantity - quantity);
+  }, [quantity, data]);
   return (
     <GlobalLayout>
       {isFetchedAfterMount || isPending ? (
         <>
           <div className="grid md:grid-cols-2 items-start max-w-6xl px-4 mx-auto gap-6 lg:gap-12 py-6">
             <div className="grid gap-4">
-              {/* <img
-                alt="Product Image"
-                className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800"
-                height={600}
-                src={productDetail?.productImages[0].url}
-                width={600}
-              /> */}
               <Image
                 alt={productDetail?.name}
                 src={productDetail?.productImages[0].url}
-                className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800"
+                className="aspect-square object-cover border  w-full rounded-lg overflow-hidden dark:border-gray-800"
               />
             </div>
             <div className="grid gap-2 md:gap-10 items-start">
@@ -60,18 +79,36 @@ const ProductDetail = () => {
                   <Label className="text-base" htmlFor="quantity">
                     Quantity
                   </Label>
-                  <Select defaultValue="1">
-                    <SelectTrigger className="w-24">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">1</SelectItem>
-                      <SelectItem value="2">2</SelectItem>
-                      <SelectItem value="3">3</SelectItem>
-                      <SelectItem value="4">4</SelectItem>
-                      <SelectItem value="5">5</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="flex gap-2 w-[150px]">
+                    <Button
+                      disabled={quantity <= 1}
+                      onClick={handleDecreseQuantity}
+                      type="button"
+                      variant="secondary"
+                    >
+                      -
+                    </Button>
+                    <Input
+                      onKeyDown={handleKeyDown}
+                      onChange={handleInputQuantity}
+                      value={quantity}
+                      max={productDetail?.quantity}
+                      className="border"
+                      type="text"
+                    />
+
+                    <Button
+                      disabled={quantity >= productDetail?.quantity}
+                      onClick={handleIncreaseQuantity}
+                      type="button"
+                      variant="secondary"
+                    >
+                      +
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground dark:text-muted-background">
+                    Available Quantity: {availableQuantity}
+                  </p>
                 </div>
                 <Button size="lg">Add to cart</Button>
               </form>
