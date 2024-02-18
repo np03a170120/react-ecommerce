@@ -1,10 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { Link } from "react-router-dom";
+import Image from "../../components/custom/Image";
 
 export default function DashboardProducts(product) {
   const productDetail = product.product;
   const loginDetailRaw = localStorage.getItem("loginDetail");
   const loginDetail = JSON.parse(loginDetailRaw);
+
   return (
     <>
       {loginDetail?._id !== productDetail?.userId && (
@@ -13,9 +15,9 @@ export default function DashboardProducts(product) {
         >
           <Card className="w-full cursor-pointer hover:shadow-lg transition ease-in-out delay-150">
             <div className=" gap-3 h-full">
-              <img
+              <Image
+                className={"aspect-video overflow-hidden  object-cover "}
                 alt={productDetail?.name}
-                className="aspect-video overflow-hidden  object-cover"
                 src={productDetail?.productImages[0].url}
               />
               <div className="text-left flex flex-col gap-1 leading-none px-4 py-6">

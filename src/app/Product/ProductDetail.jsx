@@ -14,6 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import GlobalLayout from "../../Layout/GlobalLayout";
 import ProductDetailFallbackLoader from "../../components/FallbackLoader/ProductDetailFallbackLoader";
+import Image from "../../components/custom/Image";
 
 const ProductDetail = () => {
   let { userId, productId } = useParams();
@@ -28,12 +29,17 @@ const ProductDetail = () => {
         <>
           <div className="grid md:grid-cols-2 items-start max-w-6xl px-4 mx-auto gap-6 lg:gap-12 py-6">
             <div className="grid gap-4">
-              <img
+              {/* <img
                 alt="Product Image"
                 className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800"
                 height={600}
-                src=""
+                src={productDetail?.productImages[0].url}
                 width={600}
+              /> */}
+              <Image
+                alt={productDetail?.name}
+                src={productDetail?.productImages[0].url}
+                className="aspect-square object-cover border border-gray-200 w-full rounded-lg overflow-hidden dark:border-gray-800"
               />
             </div>
             <div className="grid gap-2 md:gap-10 items-start">

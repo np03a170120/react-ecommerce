@@ -121,42 +121,53 @@ export const usePostProduct = () => {
 
 export const useCategoryList = () => {
   return useQuery({
-    queryFn: () => axiosClient.get(userURLs.categoriesList.url),
+    queryFn: async () => await axiosClient.get(userURLs.categoriesList.url),
     queryKey: [userURLs.categoriesList.key],
     refetchOnWindowFocus: false,
     refetchOnmount: false,
     refetchOnReconnect: false,
     retry: false,
+    staleTime: 60 * 1000,
   });
 };
 
 export const useProductList = () => {
   const { toast } = useToast();
   return useQuery({
-    queryFn: () => axiosClient.get(userURLs.getProducts.url),
+    queryFn: async () => await axiosClient.get(userURLs.getProducts.url),
     queryKey: [userURLs.getProducts.key],
     refetchOnWindowFocus: false,
     refetchOnmount: false,
     refetchOnReconnect: false,
     retry: false,
-    throwOnError: (error) => {
-      // toast({
-      //   title: "Error",
-      //   description: error,
-      //   variant: "destructive",
-      // });
-      console.log(error);
+    staleTime: 60 * 1000,
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
     },
   });
 };
 
 export const fetchProductDetail = ({ userId, productId }) => {
+  const { toast } = useToast();
   return useQuery({
-    queryFn: () =>
-      axiosClient.get(`${userURLs.getProductDetail.url}${userId}/${productId}`),
+    queryFn: async () =>
+      await axiosClient.get(
+        `${userURLs.getProductDetail.url}${userId}/${productId}`
+      ),
     queryKey: [userURLs.getProductDetail.key],
     refetchOnWindowFocus: false,
     refetchOnmount: true,
     refetchOnReconnect: false,
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
   });
 };

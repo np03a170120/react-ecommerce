@@ -1,4 +1,3 @@
-import { Suspense, lazy } from "react";
 import GlobalLayout from "../../Layout/GlobalLayout";
 import { useProductList } from "../../api/requestProcessor";
 import { DashboardProductsFallbackLoader } from "../../components/FallbackLoader/DashboardProductsFallbackLoader";
