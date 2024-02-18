@@ -17,6 +17,8 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useSignUpLogin } from "../../api/requestProcessor";
 import { SchemaLogin } from "./user.schema";
+import { Eye } from "@phosphor-icons/react";
+import { EyeSlash } from "@phosphor-icons/react/dist/ssr";
 
 function Login() {
   const {
@@ -42,6 +44,15 @@ function Login() {
       },
     });
   };
+  const [inputType, setInputType] = React.useState("password");
+
+  const handlePasswordToggle = () => {
+    if (inputType == "text") {
+      setInputType("password");
+    } else if (inputType == "password") {
+      setInputType("text");
+    }
+  };
 
   return (
     <>
@@ -64,12 +75,26 @@ function Login() {
 
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="name">Password</Label>
-                  <Input
-                    name="password"
-                    {...register("password")}
-                    type="password"
-                    id="password"
-                  />
+                  <div className="relative">
+                    <Input
+                      name="password"
+                      {...register("password")}
+                      type={inputType}
+                      id="password"
+                    />
+
+                    <div
+                      className="cursor-pointer absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2"
+                      onClick={handlePasswordToggle}
+                    >
+                      {inputType == "password" ? (
+                        <Eye size={18} />
+                      ) : (
+                        <EyeSlash size={18} />
+                      )}
+                    </div>
+                  </div>
+
                   <p className="text-red-600 text-xs">
                     {errors.password?.message}
                   </p>
