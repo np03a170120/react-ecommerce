@@ -28,6 +28,10 @@ const userURLs = {
     url: "product/details/",
     key: "PRODUCT_DETAIL_KEY",
   },
+  placeOrder: {
+    url: "product/purchase",
+    key: "PURCHASE_KEY",
+  },
 };
 
 export const useSignUpUser = () => {
@@ -100,6 +104,35 @@ export const usePostProduct = () => {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${loginDetail.access_token}`,
         },
+      });
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data.data.message,
+        variant: "success",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
+  });
+};
+
+export const usePurchaseProduct = () => {
+  const { toast } = useToast();
+  return useMutation({
+    mutationKey: userURLs.placeOrder.key,
+    mutationFn({ purchaseDetail, loginDetail }) {
+      return axiosClient.post(userURLs.placeOrder.url, purchaseDetail, {
+        // headers: {
+        //   "Content-Type": "multipart/form-data",
+        //   Authorization: `Bearer ${loginDetail.access_token}`,
+        // },
       });
     },
     onSuccess: (data) => {
