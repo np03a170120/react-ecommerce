@@ -13,7 +13,6 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { CartContext } from "../../providers/useCartContext";
-0;
 import { useContext } from "react";
 import Image from "../../components/custom/Image";
 import { TrashSimple } from "@phosphor-icons/react";

@@ -10,9 +10,9 @@ import { CartProvider } from "./providers/useCartContext";
 
 function App() {
   const queryClient = new QueryClient();
-
   const loginDetailRaw = localStorage.getItem("loginDetail");
   const loginDetail = JSON.parse(loginDetailRaw);
+
   const router = createBrowserRouter([
     loginDetail ? PrivateRoutes({ loginDetail }) : {},
     ...PublicRoutes({ loginDetail }),
