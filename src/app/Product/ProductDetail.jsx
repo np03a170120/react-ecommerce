@@ -1,7 +1,8 @@
 import { Input } from "@/components/ui/input";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchProductDetail } from "../../api/requestProcessor";
+import { useToast } from "@/components/ui/use-toast";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -9,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import GlobalLayout from "../../Layout/GlobalLayout";
 import ProductDetailFallbackLoader from "../../components/FallbackLoader/ProductDetailFallbackLoader";
 import Image from "../../components/custom/Image";
+import { CartContext } from "../../providers/useCartContext";
 
 const ProductDetail = () => {
   let { userId, productId } = useParams();
@@ -49,22 +51,36 @@ const ProductDetail = () => {
   useEffect(() => {
     setAvailableQuantity(productDetail?.quantity - quantity);
   }, [quantity, data]);
+
+  const { addToCart } = useContext(CartContext);
+
+  const loginDetailRaw = localStorage.getItem("loginDetail");
+  const loginDetail = JSON.parse(loginDetailRaw);
+  const access_token = loginDetail?.access_token;
+  const { toast } = useToast();
+
+  const navigate = useNavigate();
+
   return (
     <GlobalLayout>
       {isFetchedAfterMount || isPending ? (
         <>
           <div className="grid md:grid-cols-2 items-start max-w-6xl px-4 mx-auto gap-6 lg:gap-12 py-6">
             <div className="grid gap-4">
-              <Image
-                alt={productDetail?.name}
-                src={productDetail?.productImages[0].url}
-                className="aspect-square object-cover border  w-full rounded-lg overflow-hidden dark:border-gray-800"
-              />
+              {productDetail?.productImages && (
+                <>
+                  <Image
+                    alt={productDetail?.name}
+                    src={productDetail?.productImages[0]?.url}
+                    className="aspect-square object-cover border  w-full rounded-lg overflow-hidden dark:border-gray-800"
+                  />
+                </>
+              )}
             </div>
             <div className="grid gap-2 md:gap-10 items-start">
               <div className="hidden md:flex items-start">
                 <div className="grid gap-4">
-                  <h1 className="items-start text-left font-bold text-3xl lg:text-4xl">
+                  <h1 className="items-start text-left font-bold text-2xl lg:text-2xl">
                     {productDetail?.name}
                   </h1>
 
@@ -110,7 +126,27 @@ const ProductDetail = () => {
                     Available Quantity: {availableQuantity}
                   </p>
                 </div>
-                <Button size="lg">Add to cart</Button>
+                <Button
+                  onClick={() =>
+                    access_token
+                      ? (addToCart({
+                          ...productDetail,
+                          selectedQuantity: quantity,
+                        }),
+                        toast({
+                          title: "Success",
+                          description: "Product added to cart",
+                          variant: "success",
+                        }))
+                      : navigate("/login")
+                  }
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                >
+                  Add to Cart
+                </Button>
+                <Button size="lg">Buy</Button>
               </form>
               <Separator />
             </div>

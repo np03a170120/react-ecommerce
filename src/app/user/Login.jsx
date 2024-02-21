@@ -39,7 +39,7 @@ function Login() {
     };
     loginUserMutation(userData, {
       onSuccess: () => {
-        navigate(0);
+        navigate(-1);
         navigate("/");
       },
     });
@@ -88,9 +88,9 @@ function Login() {
                       onClick={handlePasswordToggle}
                     >
                       {inputType == "password" ? (
-                        <Eye size={18} />
+                        <Eye size={16} />
                       ) : (
-                        <EyeSlash size={18} />
+                        <EyeSlash size={16} />
                       )}
                     </div>
                   </div>

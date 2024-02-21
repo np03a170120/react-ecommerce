@@ -18,7 +18,7 @@ export default function DashboardProducts(product) {
               <Image
                 className={"aspect-video overflow-hidden  object-cover "}
                 alt={productDetail?.name}
-                src={productDetail?.productImages[0].url}
+                src={productDetail?.productImages[0]?.url}
               />
               <div className="text-left flex flex-col gap-1 leading-none px-4 py-6">
                 <h3 className="text-sm font-medium leading-none">
