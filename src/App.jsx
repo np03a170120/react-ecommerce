@@ -6,6 +6,8 @@ import "./App.css";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import PublicRoutes from "./routes/PublicRoutes";
 import { Toaster } from "@/components/ui/toaster";
+import { CartProvider } from "./providers/useCartContext";
+
 function App() {
   const queryClient = new QueryClient();
 
@@ -18,8 +20,10 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <Toaster />
+        <CartProvider>
+          <RouterProvider router={router} />
+          <Toaster />
+        </CartProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>

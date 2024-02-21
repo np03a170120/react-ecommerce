@@ -25,11 +25,13 @@ import { Link, useNavigate } from "react-router-dom";
 import avatar from "../assets/image/avatar.jpeg";
 import logo from "../assets/image/logo.png";
 import AddProduct from "../app/Product/AddProduct";
+import Cart from "../app/user/Cart";
 
 const Navbar = ({ loginDetail }) => {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear("loginDetail");
+    localStorage.clear("cartItems");
     navigate("/");
     navigate(0);
   };
@@ -124,6 +126,7 @@ const Navbar = ({ loginDetail }) => {
             </>
           )}
         </div>
+        <Cart />
       </div>
     </>
   );

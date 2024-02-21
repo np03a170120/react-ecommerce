@@ -95,9 +95,9 @@ function SignUp() {
                       onClick={handlePasswordToggle}
                     >
                       {inputType == "password" ? (
-                        <Eye size={18} />
+                        <Eye size={16} />
                       ) : (
-                        <EyeSlash size={18} />
+                        <EyeSlash size={16} />
                       )}
                     </div>
                   </div>
