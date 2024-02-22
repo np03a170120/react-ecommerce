@@ -126,7 +126,7 @@ const Navbar = ({ loginDetail }) => {
             </>
           )}
         </div>
-        <Cart />
+        <Cart loginDetail={loginDetail?.access_token} />
       </div>
     </>
   );

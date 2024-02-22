@@ -14,9 +14,6 @@ export const CartProvider = ({ children }) => {
       (cartItem) => cartItem._id === item._id
     );
 
-    console.log(item.quantity, "quntity");
-    console.log(item.selectedQuantity, "selected quantity");
-
     if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>

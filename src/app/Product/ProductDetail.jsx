@@ -138,7 +138,11 @@ const ProductDetail = () => {
                           description: "Product added to cart",
                           variant: "success",
                         }))
-                      : navigate("/login")
+                      : (toast({
+                          description: "Please login to Add to Cart",
+                          variant: "destructive",
+                        }),
+                        navigate("/login"))
                   }
                   type="button"
                   variant="outline"
