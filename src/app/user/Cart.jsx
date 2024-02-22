@@ -16,9 +16,12 @@ import { CartContext } from "../../providers/useCartContext";
 import { useContext } from "react";
 import Image from "../../components/custom/Image";
 import { TrashSimple } from "@phosphor-icons/react";
+import { Link } from "react-router-dom";
 const Cart = () => {
   const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal } =
     useContext(CartContext);
+
+  console.log(cartItems[0]?.selectedQuantity, "from cart");
 
   return (
     <Drawer>
@@ -107,6 +110,7 @@ const Cart = () => {
                 <h1 className="text-lg font-bold">Your cart is empty</h1>
               )}
             </div>
+            {/* <Link to="product/checkout">Checkout</Link> */}
           </div>
         </div>
         <DrawerFooter>

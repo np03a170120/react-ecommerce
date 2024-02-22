@@ -8,7 +8,10 @@ const PrivateRoutes = ({ loginDetail }) => {
     element: <Layout />,
     children: [
       { path: "/dashboard", element: <Test /> },
-      { path: "/checkout", element: <Checkout loginDetail={loginDetail} /> },
+      {
+        path: "product/checkout",
+        element: <Checkout loginDetail={loginDetail} />,
+      },
     ],
   };
 };

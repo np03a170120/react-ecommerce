@@ -14,6 +14,9 @@ export const CartProvider = ({ children }) => {
       (cartItem) => cartItem._id === item._id
     );
 
+    console.log(item.quantity, "quntity");
+    console.log(item.selectedQuantity, "selected quantity");
+
     if (isItemInCart) {
       setCartItems(
         cartItems.map((cartItem) =>
@@ -23,7 +26,10 @@ export const CartProvider = ({ children }) => {
         )
       );
     } else {
-      setCartItems([...cartItems, { ...item, selectedQuantity: 1 }]);
+      setCartItems([
+        ...cartItems,
+        { ...item, selectedQuantity: item.selectedQuantity },
+      ]);
     }
   };
 

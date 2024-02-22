@@ -29,7 +29,7 @@ const userURLs = {
     key: "PRODUCT_DETAIL_KEY",
   },
   placeOrder: {
-    url: "product/purchase",
+    url: "purchase/product",
     key: "PURCHASE_KEY",
   },
 };
