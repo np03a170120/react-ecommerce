@@ -28,9 +28,6 @@ export default function DashboardProducts(product) {
                   Available Quantity: {productDetail?.quantity}
                 </p>
                 <p className="text-sm font-medium">Rs.{productDetail?.price}</p>
-                {/* <div className=" text-sm">
-                <Button size="sm">View</Button>
-              </div> */}
               </div>
             </div>
           </Card>

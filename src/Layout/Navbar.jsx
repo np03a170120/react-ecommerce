@@ -35,6 +35,7 @@ const Navbar = ({ loginDetail }) => {
     navigate("/");
     navigate(0);
   };
+  const profileImage = loginDetail?.image;
 
   return (
     <>
@@ -75,7 +76,7 @@ const Navbar = ({ loginDetail }) => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Avatar className={"cursor-pointer"}>
-                      <AvatarImage src={avatar} />
+                      <AvatarImage src={profileImage} />
                       <AvatarFallback>Season</AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
@@ -111,11 +112,11 @@ const Navbar = ({ loginDetail }) => {
                     </div>
                     {loginDetail.fullName}
                   </HoverCardTrigger>
-                  <HoverCardContent align="start">
-                    <ul className="text-justify text-sm">
+                  <HoverCardContent align="start" className={"p-2"}>
+                    <ul className="text-justify text-xs">
                       <li>{loginDetail.mobileNum}</li>
-                      <li>
-                        <EnvelopeSimple size={16} />
+                      <li className="flex gap-1 items-center">
+                        <EnvelopeSimple size={12} />
 
                         {loginDetail.email}
                       </li>
