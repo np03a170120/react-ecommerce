@@ -62,7 +62,7 @@ const AddProduct = ({ loginDetail }) => {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button classNam="font-medium">
+          <Button className="font-medium">
             <PlusCircle size={18} className="mr-1 " /> Add Product
           </Button>
         </DialogTrigger>
