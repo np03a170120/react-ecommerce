@@ -99,7 +99,7 @@ function SignUp() {
   return (
     <>
       <div className="flex justify-center items-center h-[100vh]">
-        <Card className="w-[350px]">
+        <Card className="w-[350px] text-center">
           <CardHeader>
             <CardTitle>Sign Up </CardTitle>
             <CardDescription>E-commerce React</CardDescription>

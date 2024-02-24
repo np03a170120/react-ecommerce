@@ -13,8 +13,8 @@ export default function Home({ loginDetail }) {
   return (
     <>
       <GlobalLayout>
-        <div className="container my-8">
-          <div className="grid grid-cols-4 gap-4">
+        <div className=" ">
+          <div className="grid md:grid-cols-3 xl:grid-cols-5  gap-4">
             {data?.data.data.map((data) => {
               const product = data;
               return (
