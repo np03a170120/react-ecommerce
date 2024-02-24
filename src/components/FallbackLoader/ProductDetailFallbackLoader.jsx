@@ -11,12 +11,14 @@ const ProductDetailFallbackLoader = () => {
         <div className="grid gap-2 md:gap-10 items-start">
           <div className="hidden md:flex items-start">
             <div className="grid gap-4">
-              <Skeleton className="h-6 w-[200px]" />
+              <Skeleton className="h-6 w-[400px]" />
             </div>
           </div>
-          <Skeleton className="h-4 w-[400px]" />
-          <Skeleton className="h-4 w-[400px] mb-12" />
-          <Skeleton className="h-8 w-[400px]" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-[100px] mb-12" />
+          <Skeleton className="h-8 w-[200px] mb-3" />
+          <Skeleton className="h-8 w-full" />
+          <Skeleton className="h-8 w-full" />
         </div>
       </div>
     </>

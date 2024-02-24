@@ -13,8 +13,8 @@ export default function DashboardProducts(product) {
         <Link
           to={`/product/detail/${productDetail?.userId}/${productDetail?._id}`}
         >
-          <Card className="w-full cursor-pointer hover:shadow-lg transition ease-in-out delay-150">
-            <div className=" gap-3 h-full">
+          <Card className="w-full h-full cursor-pointer hover:shadow-lg transition ease-in-out ">
+            <div className="gap-3 h-full">
               <Image
                 className={"aspect-video overflow-hidden  object-cover "}
                 alt={productDetail?.name}

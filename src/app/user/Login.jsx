@@ -104,13 +104,13 @@ function Login() {
   return (
     <>
       <div className="flex justify-center items-center h-[100vh]">
-        <Card className="w-[350px]">
+        <Card className="w-[350px] text-center">
           <CardHeader>
             <CardTitle>Login</CardTitle>
             <CardDescription>E-commerce React</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-4 ">
               <img
                 className="h-6 cursor-pointer  "
                 onClick={login}

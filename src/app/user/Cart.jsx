@@ -28,9 +28,9 @@ const Cart = ({ loginDetail }) => {
       {loginDetail && (
         <Drawer>
           <DrawerTrigger asChild>
-            <div className="bg-gray-200 rounded-full p-2  transition ease-in-out delay-150 hover:shadow-lg relative mr-2">
+            <div className="bg-gray-200 rounded-full p-2  transition ease-in-out  hover:shadow-lg relative mr-2">
               <ShoppingBag className="cursor-pointer	" size={24} />
-              <span className=" z-[10] bg-red-200 rounded-full h-6 w-6 flex items-center justify-center absolute bottom-5 right-[-2px] text-xs">
+              <span className=" z-[10] bg-red-200 rounded-full h-6 w-6 flex items-center justify-center absolute bottom-5 right-[-2px] text-xs font-semibold">
                 {total}
               </span>
             </div>
@@ -44,7 +44,7 @@ const Cart = ({ loginDetail }) => {
               <div className="grid grid-cols-1 gap-4 flex-1">
                 {cartItems.map((item) => (
                   <Card
-                    className=" relative transition ease-in-out delay-150 flex border p-4  hover:shadow-lg cursor-pointer  items-center"
+                    className=" relative transition ease-in-out  flex border p-4  hover:shadow-lg cursor-pointer  items-center"
                     key={item?.id}
                   >
                     <div className="flex gap-4">

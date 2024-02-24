@@ -62,13 +62,13 @@ const AddProduct = ({ loginDetail }) => {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="font-medium">
+          <Button variant={"outline"} className="font-medium">
             <PlusCircle size={18} className="mr-1 " /> Add Product
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[620px]">
-          <DialogHeader>
-            <DialogTitle>Post Product</DialogTitle>
+        <DialogContent className="">
+          <DialogHeader className="mb-2">
+            <DialogTitle className="mb-3">Post Product</DialogTitle>
             <DialogDescription>
               Fill out all required details when posting a product and adhere to
               platform restrictions to avoid warnings.

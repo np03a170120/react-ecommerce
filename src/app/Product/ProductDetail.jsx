@@ -1,12 +1,11 @@
 import { Input } from "@/components/ui/input";
-import React, { useContext, useEffect, useState, Suspense } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchProductDetail } from "../../api/requestProcessor";
-import { useToast } from "@/components/ui/use-toast";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import GlobalLayout from "../../Layout/GlobalLayout";
 import ProductDetailFallbackLoader from "../../components/FallbackLoader/ProductDetailFallbackLoader";
 import Image from "../../components/custom/Image";
@@ -66,7 +65,7 @@ const ProductDetail = () => {
       <>
         {isFetchedAfterMount ? (
           <Suspense fallback={<ProductDetailFallbackLoader />}>
-            <div className="grid md:grid-cols-2 items-start max-w-6xl px-4 mx-auto gap-6 lg:gap-12 py-6">
+            <div className="grid md:grid-cols-2 items-start max-w-6xl px-4 mx-auto gap-6 lg:gap-12 ">
               <div className="grid gap-4">
                 {productDetail?.productImages && (
                   <>
@@ -153,7 +152,6 @@ const ProductDetail = () => {
                   </Button>
                   <Button size="lg">Buy</Button>
                 </form>
-                <Separator />
               </div>
               <div className="flex md:hidden items-start">
                 <div className="grid gap-4">
