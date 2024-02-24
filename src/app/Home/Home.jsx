@@ -2,10 +2,13 @@ import GlobalLayout from "../../Layout/GlobalLayout";
 import { useProductList } from "../../api/requestProcessor";
 import { DashboardProductsFallbackLoader } from "../../components/FallbackLoader/DashboardProductsFallbackLoader";
 
-import DashboardProducts from "../../app/Product/DashboardProducts";
+import { Suspense, lazy } from "react";
 
 export default function Home({ loginDetail }) {
-  const { data, isError, isFetching, isPending } = useProductList();
+  const { data, isError } = useProductList();
+  const DashboardProduct = lazy(() =>
+    import("../../app/Product/DashboardProducts")
+  );
 
   return (
     <>
@@ -16,14 +19,12 @@ export default function Home({ loginDetail }) {
               const product = data;
               return (
                 <>
-                  {isFetching || isPending ? (
-                    <DashboardProductsFallbackLoader />
-                  ) : (
-                    <DashboardProducts
+                  <Suspense fallback={<DashboardProductsFallbackLoader />}>
+                    <DashboardProduct
                       product={product}
                       loginDetail={loginDetail}
                     />
-                  )}
+                  </Suspense>
                 </>
               );
             })}
