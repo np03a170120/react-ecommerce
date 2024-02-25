@@ -15,13 +15,34 @@ import { ShoppingBag, TrashSimple } from "@phosphor-icons/react";
 import { useContext } from "react";
 import Image from "../../components/custom/Image";
 import { CartContext } from "../../providers/useCartContext";
+import { twMerge } from "tailwind-merge";
 const Cart = ({ loginDetail }) => {
-  const { cartItems, addToCart, removeFromCart, clearCart, getCartTotal } =
-    useContext(CartContext);
+  const {
+    cartItems,
+    addToCart,
+    addToCardHandler,
+    removeFromCart,
+    clearCart,
+    getCartTotal,
+  } = useContext(CartContext);
 
   const total = cartItems
     .map((item) => item.selectedQuantity)
     .reduce((sum, a) => sum + a, 0);
+
+  const [animateBounch, setAnimateBounch] = React.useState("");
+
+  React.useEffect(() => {
+    setAnimateBounch("animate-bounce");
+    setTimeout(() => {
+      setAnimateBounch("");
+    }, 5000);
+  }, [total]);
+
+  const tempClassName = twMerge(
+    animateBounch,
+    `transition-all	 ease-in-out  z-[10] bg-red-200 rounded-full h-6 w-6 flex items-center justify-center absolute bottom-5 right-[-2px] text-xs font-semibold`
+  );
 
   return (
     <>
@@ -30,7 +51,14 @@ const Cart = ({ loginDetail }) => {
           <DrawerTrigger asChild>
             <div className="bg-gray-200 rounded-full p-2  transition ease-in-out  hover:shadow-lg relative mr-2">
               <ShoppingBag className="cursor-pointer	" size={24} />
-              <span className=" z-[10] bg-red-200 rounded-full h-6 w-6 flex items-center justify-center absolute bottom-5 right-[-2px] text-xs font-semibold">
+
+              <span
+                className={
+                  total > 0
+                    ? tempClassName
+                    : " z-[10] bg-red-200 rounded-full h-6 w-6 flex items-center justify-center absolute bottom-5 right-[-2px] text-xs font-semibold"
+                }
+              >
                 {total}
               </span>
             </div>

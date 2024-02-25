@@ -2,3 +2,6 @@
 #root {
   /* max-width: 85vw; */
 }
+.animate-bounce {
+  animation: bounce 1s ease-in-out 3;
+}

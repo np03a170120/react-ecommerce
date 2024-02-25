@@ -52,6 +52,10 @@ export const CartProvider = ({ children }) => {
     setCartItems([]);
   };
 
+  function addToCardHandler() {
+    return true;
+  }
+
   const getCartTotal = () => {
     return cartItems.reduce(
       (total, item) => total + item.price * item.quantity,
@@ -78,6 +82,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         clearCart,
         getCartTotal,
+        addToCardHandler,
       }}
     >
       {children}
