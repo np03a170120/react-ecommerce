@@ -51,7 +51,7 @@ const ProductDetail = () => {
     setAvailableQuantity(productDetail?.quantity - quantity);
   }, [quantity, data]);
 
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, addToCartHandler } = useContext(CartContext);
 
   const loginDetailRaw = localStorage.getItem("loginDetail");
   const loginDetail = JSON.parse(loginDetailRaw);
@@ -133,6 +133,7 @@ const ProductDetail = () => {
                             ...productDetail,
                             selectedQuantity: quantity,
                           }),
+                          addToCartHandler,
                           toast({
                             title: "Success",
                             description: "Product added to cart",
