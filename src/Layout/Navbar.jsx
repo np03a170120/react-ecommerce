@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,16 +9,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 
 import {
   CheckCircle,
-  EnvelopeSimple,
+  CodesandboxLogo,
   MagnifyingGlass,
   WarningCircle,
 } from "@phosphor-icons/react";
@@ -42,7 +36,7 @@ const Navbar = ({ loginDetail }) => {
 
   return (
     <>
-      <div className="border-b shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] mb-8 py-3">
+      <div className="border-b shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] mb-6 py-3 sticky top-0 z-50 bg-white">
         <div className="container flex items-center justify-between ">
           <img
             className="h-[40px] cursor-pointer"
@@ -111,6 +105,15 @@ const Navbar = ({ loginDetail }) => {
                         <DropdownMenuItem>
                           <User className="mr-2 h-4 w-4" />
                           <span>Profile</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <Link
+                            to={"user/profile"}
+                            className="flex items-center"
+                          >
+                            <CodesandboxLogo className="mr-2 h-4 w-4" />
+                            <span>Products</span>
+                          </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           <CreditCard className="mr-2 h-4 w-4" />
