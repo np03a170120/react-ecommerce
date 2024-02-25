@@ -5,17 +5,17 @@ import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerDescription,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { ShoppingBag, TrashSimple } from "@phosphor-icons/react";
 import { useContext } from "react";
+import { twMerge } from "tailwind-merge";
 import Image from "../../components/custom/Image";
 import { CartContext } from "../../providers/useCartContext";
-import { twMerge } from "tailwind-merge";
 const Cart = ({ loginDetail }) => {
   const {
     cartItems,
