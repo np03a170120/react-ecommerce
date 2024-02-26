@@ -1,11 +1,9 @@
 import React from "react";
-import Test from "../app/Dashboard/Test";
 import Layout from "../Layout/Layout";
-import Checkout from "../app/user/Checkout";
-import UserProduct from "../app/Product/UserProduct";
-import Profile from "../app/User/Profile";
-import { Outlet } from "react-router-dom";
+import Test from "../app/Dashboard/Test";
 import AddProductForm from "../app/Product/Form/ProductForm";
+import Profile from "../app/user/Profile";
+import Checkout from "../app/user/Checkout";
 
 const PrivateRoutes = ({ loginDetail }) => {
   return {
