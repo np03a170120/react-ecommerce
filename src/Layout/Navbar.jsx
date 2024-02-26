@@ -102,7 +102,7 @@ const Navbar = ({ loginDetail }) => {
                       <DropdownMenuLabel>My Account</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuGroup>
-                        <Link to={"/user/profile"}>
+                        <Link to={"/user/profile/add-product"}>
                           <DropdownMenuItem>
                             <User className="mr-2 h-4 w-4" />
                             <span>Profile</span>
