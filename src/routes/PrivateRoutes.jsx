@@ -11,11 +11,11 @@ const PrivateRoutes = ({ loginDetail }) => {
     children: [
       { path: "/dashboard", element: <Test /> },
       {
-        path: "product/checkout",
+        path: "/product/checkout",
         element: <Checkout loginDetail={loginDetail} />,
       },
       {
-        path: "user/profile",
+        path: "/user/profile",
         element: <Profile loginDetail={loginDetail} />,
       },
     ],

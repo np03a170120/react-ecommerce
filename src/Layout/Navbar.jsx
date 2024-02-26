@@ -102,18 +102,15 @@ const Navbar = ({ loginDetail }) => {
                       <DropdownMenuLabel>My Account</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuGroup>
+                        <Link to={"/user/profile"}>
+                          <DropdownMenuItem>
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Profile</span>
+                          </DropdownMenuItem>
+                        </Link>
                         <DropdownMenuItem>
-                          <User className="mr-2 h-4 w-4" />
-                          <span>Profile</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Link
-                            to={"user/profile"}
-                            className="flex items-center"
-                          >
-                            <CodesandboxLogo className="mr-2 h-4 w-4" />
-                            <span>Products</span>
-                          </Link>
+                          <CodesandboxLogo className="mr-2 h-4 w-4" />
+                          <span>Products</span>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           <CreditCard className="mr-2 h-4 w-4" />
