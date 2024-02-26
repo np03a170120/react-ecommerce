@@ -5,3 +5,10 @@
 .animate-bounce {
   animation: bounce 1s ease-in-out 3;
 }
+.navlink .active {
+  background-color: rgb(51, 51, 51);
+  color: white;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+  /* border-right: 0.25rem solid rgb(238, 191, 191); */
+}

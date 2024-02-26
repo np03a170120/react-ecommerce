@@ -6,7 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import Select from "react-select";
+
+// import {
+//   Select,
+//   SelectContent,
+//   SelectGroup,
+//   SelectItem,
+//   SelectLabel,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 
 import { Loader2 } from "lucide-react";
 import { uploadProduct } from "../product.schema";
@@ -19,6 +30,8 @@ const AddProductForm = () => {
   const { data } = useCategoryList();
   const { mutate: postProductMutation, isPending } = usePostProduct();
   const {
+    getValues,
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -49,10 +62,28 @@ const AddProductForm = () => {
     );
   };
 
+  const options = [
+    { value: "chocolate", label: "Chocolate" },
+    { value: "strawberry", label: "Strawberry" },
+    { value: "vanilla", label: "Vanilla" },
+  ];
+
+  const sanitizedData = data?.data.data.map(({ _id, categoryName }) => ({
+    value: _id,
+    label: categoryName,
+  }));
+
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid w-full items-center gap-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="border px-8 py-6 rounded-[6px] bg-gray-50"
+      >
+        <h3 className="scroll-m-20 text-1xl font-semibold mb-6 tracking-tight">
+          Add Product
+        </h3>
+
+        <div className="grid w-full items-center gap-4 ">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="name">Name</Label>
             <Input {...register("name")} id="name" />
@@ -61,29 +92,40 @@ const AddProductForm = () => {
             <Label htmlFor="name">Quantity</Label>
             <Input {...register("quantity")} id="quantity" />
           </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="framework">Category</Label>
-            <select {...register("category")}>
-              {data?.data.data.map((item) => (
-                <option value={item._id}>{item.categoryName}</option>
-              ))}
-            </select>
+          <div className="flex flex-col space-y-1.5 w-full">
+            <Label htmlFor="category">Category</Label>
+            <Controller
+              control={control}
+              name="category"
+              render={({ field: { onChange, value } }) => (
+                <Select
+                  options={sanitizedData || []}
+                  onChange={(selectedData) => onChange(selectedData.value)}
+                  value={
+                    sanitizedData
+                      ? sanitizedData.find((option) => option.value === value)
+                      : null
+                  }
+                />
+              )}
+            />
           </div>
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="name">Price</Label>
             <Input {...register("price")} id="category" />
           </div>
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="description">Description</Label>
-            <Textarea {...register("description")} />
-          </div>
-          <div className="flex flex-col space-y-1.5">
             <Label htmlFor="shortDescription"> Short Description</Label>
             <Textarea {...register("shortDescription")} />
           </div>
-          {/* <div className="flex flex-col space-y-1.5">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="description">Description</Label>
+            <Textarea {...register("description")} />
+          </div>
+
+          <div className="flex flex-col space-y-1.5">
             <input type="file" {...register("productImages")} />
-          </div> */}
+          </div>
         </div>
         <DialogFooter>
           <Button type="submit">

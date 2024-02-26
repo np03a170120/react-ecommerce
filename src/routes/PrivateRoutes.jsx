@@ -3,7 +3,7 @@ import Test from "../app/Dashboard/Test";
 import Layout from "../Layout/Layout";
 import Checkout from "../app/user/Checkout";
 import UserProduct from "../app/Product/UserProduct";
-import Profile from "../app/user/Profile";
+import Profile from "../app/User/Profile";
 import { Outlet } from "react-router-dom";
 import AddProductForm from "../app/Product/Form/ProductForm";
 

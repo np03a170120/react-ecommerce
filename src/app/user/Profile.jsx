@@ -1,30 +1,38 @@
 import { Card } from "@/components/ui/card";
+import { PictureInPicture, ShoppingCart } from "@phosphor-icons/react";
 import React from "react";
+import { NavLink, Outlet } from "react-router-dom";
 import GlobalLayout from "../../Layout/GlobalLayout";
-import { BrowserRouter, Routes, Route, Link, Outlet } from "react-router-dom";
-import Home from "../Home/Home";
-import AddProduct from "../Product/AddProduct";
 
 const Profile = ({ loginDetail }) => {
   const profileImage = loginDetail?.image;
   return (
     <GlobalLayout>
       <div className="flex justify-between ">
-        <div className="w-[20%] border-r flex flex-col gap-3">
-          <Link to="add-product">
-            <h1 className="bg-gray-200 px-4 py-2 ">Add Product</h1>
-          </Link>
-          <Link to="add-banner">
-            <h1 className=" px-4 py-2">Add Banner</h1>
-          </Link>
+        <div className="w-[20%] border-r flex flex-col gap-1 navlink">
+          <NavLink
+            to="add-product"
+            className={"flex font-medium gap-2 items-center px-2 py-2"}
+          >
+            <ShoppingCart size={18} />
+            <h3 className="text-sm">Add Product</h3>
+          </NavLink>
+          <NavLink
+            to="add-banner"
+            className={"flex font-medium gap-2 items-center px-2 py-2"}
+          >
+            <PictureInPicture size={18} />
+
+            <h3 className="text-sm">Add Banner</h3>
+          </NavLink>
         </div>
-        <div className="w-[40%]">
+        <div className="w-[50%]">
           <Outlet />
         </div>
-        <Card className="w-[16rem]  rounded-lg border-0 ">
-          <div className="px-6 py-4 grid items-center gap-4 border rounded-sm">
+        <Card className=" border-0 shadow-none ">
+          <div className="px-6 py-4 grid items-center gap-4 border rounded-[6px]">
             <div className="flex items-center space-x-4">
-              <div className="overflow-hidden rounded-full  w-24 h-24">
+              <div className="overflow-hidden rounded-full  w-16 h-16">
                 <img
                   alt="User"
                   className="rounded-full h-full w-full border"
