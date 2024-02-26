@@ -101,6 +101,7 @@ export const usePostProduct = () => {
     mutationFn({ productData, loginDetail }) {
       return axiosClient.post(userURLs.postProduct.url, productData, {
         headers: {
+          "Access-Control-Allow-Origin": "*",
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${loginDetail.access_token}`,
         },

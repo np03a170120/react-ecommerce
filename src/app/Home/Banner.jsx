@@ -19,7 +19,7 @@ const Banner = () => {
       plugins={[plugin.current]}
       className="w-full  mb-8 cursor-pointer"
     >
-      <CarouselContent>
+      <CarouselContent className="rounded-sm">
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={index}>
             <Card className="w-full h-[32rem]">

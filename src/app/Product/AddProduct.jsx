@@ -91,21 +91,6 @@ const AddProduct = ({ loginDetail }) => {
                     <option value={item._id}>{item.categoryName}</option>
                   ))}
                 </select>
-                {/* <Select>
-                  <SelectTrigger>
-                    <SelectValue 
-                      {...register("category")}
-                      placeholder="Select Category"
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {data?.data.data.map((item) => (
-                      <SelectItem value={item._id}>
-                        {item.categoryName}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select> */}
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="name">Price</Label>
