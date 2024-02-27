@@ -29,7 +29,7 @@ const userURLs = {
     key: "PRODUCT_DETAIL_KEY",
   },
   placeOrder: {
-    url: "purchase/product",
+    url: "purchase-products",
     key: "PURCHASE_KEY",
   },
 };
@@ -130,10 +130,10 @@ export const usePurchaseProduct = () => {
     mutationKey: userURLs.placeOrder.key,
     mutationFn({ purchaseDetail, loginDetail }) {
       return axiosClient.post(userURLs.placeOrder.url, purchaseDetail, {
-        // headers: {
-        //   "Content-Type": "multipart/form-data",
-        //   Authorization: `Bearer ${loginDetail.access_token}`,
-        // },
+        headers: {
+          // "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${loginDetail.access_token}`,
+        },
       });
     },
     onSuccess: (data) => {
