@@ -9,7 +9,7 @@ const GlobalLayout = ({ children }) => {
     <>
       <Navbar loginDetail={loginDetail} />
       <div className="container">
-        <div defaultSize={90}>{children}</div>
+        <div>{children}</div>
       </div>
     </>
   );

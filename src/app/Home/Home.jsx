@@ -16,10 +16,10 @@ export default function Home({ loginDetail }) {
       <GlobalLayout>
         <Banner />
         <div className="grid md:grid-cols-3 xl:grid-cols-5 gap-4">
-          {data?.data.data.map((data) => {
+          {data?.data.data.map((data, index) => {
             const product = data;
             return (
-              <>
+              <div key={index}>
                 {isPending && <DashboardProductsFallbackLoader />}
                 <Suspense fallback={<DashboardProductsFallbackLoader />}>
                   <DashboardProduct
@@ -27,7 +27,7 @@ export default function Home({ loginDetail }) {
                     loginDetail={loginDetail}
                   />
                 </Suspense>
-              </>
+              </div>
             );
           })}
         </div>
