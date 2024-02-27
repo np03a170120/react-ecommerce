@@ -16,14 +16,14 @@ import { useContext } from "react";
 import { twMerge } from "tailwind-merge";
 import Image from "../../components/custom/Image";
 import { CartContext } from "../../providers/useCartContext";
+import { Link } from "react-router-dom";
 const Cart = ({ loginDetail }) => {
   const {
     cartItems,
     addToCart,
-    addToCardHandler,
-    removeFromCart,
     clearCart,
     getCartTotal,
+    removeProductFromCart,
   } = useContext(CartContext);
 
   const total = cartItems
@@ -123,7 +123,7 @@ const Cart = ({ loginDetail }) => {
                     </div>
                     <TrashSimple
                       className="absolute right-3 top-3"
-                      onClick={() => removeFromCart(item)}
+                      onClick={() => removeProductFromCart(item)}
                       size={16}
                     />
                   </Card>
@@ -141,12 +141,12 @@ const Cart = ({ loginDetail }) => {
                       >
                         Clear cart
                       </Button>
+                      <Link to="/product/checkout">Proceed to Checkout</Link>
                     </div>
                   ) : (
                     <h1 className="text-lg font-bold">Your cart is empty</h1>
                   )}
                 </div>
-                {/* <Link to="product/checkout">Checkout</Link> */}
               </div>
             </div>
             <DrawerFooter>

@@ -48,6 +48,10 @@ export const CartProvider = ({ children }) => {
     }
   };
 
+  const removeProductFromCart = (item) => {
+    setCartItems(cartItems.filter((cartItems) => cartItems._id !== item._id));
+  };
+
   const clearCart = () => {
     setCartItems([]);
   };
@@ -78,6 +82,7 @@ export const CartProvider = ({ children }) => {
         removeFromCart,
         clearCart,
         getCartTotal,
+        removeProductFromCart,
       }}
     >
       {children}
