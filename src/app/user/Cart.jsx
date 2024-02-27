@@ -70,10 +70,10 @@ const Cart = ({ loginDetail }) => {
             </DrawerHeader>
             <div className="flex align-top gap-16 w-full">
               <div className="grid grid-cols-1 gap-4 flex-1">
-                {cartItems.map((item) => (
+                {cartItems.map((item, index) => (
                   <Card
                     className=" relative transition ease-in-out  flex border p-4  hover:shadow-lg cursor-pointer  items-center"
-                    key={item?.id}
+                    key={index}
                   >
                     <div className="flex gap-4">
                       {item.productImages && (
