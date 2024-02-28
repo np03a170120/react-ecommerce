@@ -9,16 +9,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectLabel,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-
 import { Loader2 } from "lucide-react";
 import { uploadProduct } from "../product.schema";
 import { useCategoryList, usePostProduct } from "../../../api/requestProcessor";
