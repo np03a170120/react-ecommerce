@@ -90,42 +90,48 @@ const ProductDetail = () => {
                     </h2>
                   </div>
                 </div>
-                <form className="grid gap-4 md:gap-10">
-                  <div className="grid gap-2 text-left">
-                    <Label className="text-base" htmlFor="quantity">
-                      Quantity
-                    </Label>
-                    <div className="flex gap-2 w-[150px]">
-                      <Button
-                        disabled={quantity <= 1}
-                        onClick={handleDecreseQuantity}
-                        type="button"
-                        variant="secondary"
-                      >
-                        -
-                      </Button>
-                      <Input
-                        onKeyDown={handleKeyDown}
-                        onChange={handleInputQuantity}
-                        value={quantity}
-                        max={productDetail?.quantity}
-                        className="border"
-                        type="text"
-                      />
+                <div className="grid  gap-6  text-left">
+                  <Label className="text-base" htmlFor="quantity">
+                    Quantity
+                  </Label>
+                  <div className="flex gap-2 w-[150px]">
+                    <Button
+                      disabled={quantity <= 1}
+                      onClick={handleDecreseQuantity}
+                      type="button"
+                      variant="secondary"
+                    >
+                      -
+                    </Button>
+                    <Input
+                      onKeyDown={handleKeyDown}
+                      onChange={handleInputQuantity}
+                      value={quantity}
+                      max={productDetail?.quantity}
+                      className="border"
+                      type="text"
+                    />
 
-                      <Button
-                        disabled={quantity >= productDetail?.quantity}
-                        onClick={handleIncreaseQuantity}
-                        type="button"
-                        variant="secondary"
-                      >
-                        +
-                      </Button>
-                    </div>
+                    <Button
+                      disabled={quantity >= productDetail?.quantity}
+                      onClick={handleIncreaseQuantity}
+                      type="button"
+                      variant="secondary"
+                    >
+                      +
+                    </Button>
+                  </div>
+
+                  <div>
                     <p className="text-xs text-muted-foreground dark:text-muted-background">
                       Available Quantity: {availableQuantity}
                     </p>
+                    <Button variant="link" className="p-0 underline">
+                      Chat with Seller
+                    </Button>
                   </div>
+                </div>
+                <form className="flex flex-col gap-4">
                   <Button
                     onClick={() =>
                       access_token
