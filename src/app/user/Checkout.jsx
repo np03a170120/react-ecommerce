@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { usePurchaseProduct } from "../../api/requestProcessor";
 import { TrashSimple } from "@phosphor-icons/react";
 import Image from "../../components/custom/Image";
+import { Loader2 } from "lucide-react";
 
 const Checkout = ({ loginDetail }) => {
   const { cartItems, clearCart, addToCart, removeProductFromCart } =
@@ -25,16 +26,14 @@ const Checkout = ({ loginDetail }) => {
       products: cartItems,
     };
 
-    if (cartItems.length > 1) {
-      postProductMutation(
-        { purchaseDetail, loginDetail },
-        {
-          onSuccess: () => {
-            clearCart();
-          },
-        }
-      );
-    }
+    postProductMutation(
+      { purchaseDetail, loginDetail },
+      {
+        onSuccess: () => {
+          clearCart();
+        },
+      }
+    );
   };
 
   return (
@@ -97,7 +96,11 @@ const Checkout = ({ loginDetail }) => {
         </Card>
       ))}
       <Button disabled={cartItems.length < 1} onClick={handleSubmit}>
-        Place Order
+        {isPending === true ? (
+          <Loader2 className=" h-4 animate-spin" />
+        ) : (
+          "Place Order"
+        )}
       </Button>
     </div>
   );
