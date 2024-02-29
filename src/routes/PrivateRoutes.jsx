@@ -29,7 +29,7 @@ const PrivateRoutes = ({ loginDetail }) => {
           },
           {
             path: "my-products",
-            element: <UserProducts />,
+              element: <UserProducts />,
           },
         ],
       },

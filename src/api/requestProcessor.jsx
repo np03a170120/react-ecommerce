@@ -32,6 +32,14 @@ const userURLs = {
     url: "purchase-products",
     key: "PURCHASE_KEY",
   },
+  userProducts: {
+    url: "user-products",
+    key: "USER_PRODUCT_KEY",
+  },
+  editUserProduct: {
+    url: "user-product",
+    key: "EDIT_USER_PRODUCT",
+  },
 };
 
 export const useSignUpUser = () => {
@@ -194,6 +202,64 @@ export const fetchProductDetail = ({ userId, productId }) => {
       ),
     queryKey: [userURLs.getProductDetail.key],
     cacheTime: 0,
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
+  });
+};
+export const fetchUserProducts = ({ loginDetail }) => {
+  const { toast } = useToast();
+  return useQuery({
+    queryFn: async () =>
+      await axiosClient.get(`${userURLs.userProducts.url}/${loginDetail._id}`, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${loginDetail.access_token}`,
+        },
+      }),
+    queryKey: [userURLs.userProducts.key],
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
+    refetchOnWindowFocus: false,
+    refetchOnmount: false,
+    refetchOnReconnect: false,
+    retry: false,
+    staleTime: 60 * 1000,
+  });
+};
+
+export const usePurchaseEditProduct = () => {
+  const { toast } = useToast();
+  return useMutation({
+    mutationKey: userURLs.editUserProduct.key,
+    mutationFn({ productEditedData, loginDetail, userId, productId }) {
+      return axiosClient.put(
+        `${userURLs.editUserProduct.url}/${userId}/${productId}`,
+        productEditedData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${loginDetail.access_token}`,
+          },
+        }
+      );
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data.data.message,
+        variant: "success",
+      });
+    },
     onError: (error) => {
       toast({
         title: "Error",
