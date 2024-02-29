@@ -52,12 +52,6 @@ const AddProductForm = () => {
     );
   };
 
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
-
   const sanitizedData = data?.data.data.map(({ _id, categoryName }) => ({
     value: _id,
     label: categoryName,

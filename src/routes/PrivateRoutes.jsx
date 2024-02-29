@@ -4,6 +4,7 @@ import Test from "../app/Dashboard/Test";
 import AddProductForm from "../app/Product/Form/ProductForm";
 import Profile from "../app/user/Profile";
 import Checkout from "../app/user/Checkout";
+import UserProducts from "../app/user/UserProducts";
 
 const PrivateRoutes = ({ loginDetail }) => {
   return {
@@ -25,6 +26,10 @@ const PrivateRoutes = ({ loginDetail }) => {
           {
             path: "add-banner",
             element: <h1>test</h1>,
+          },
+          {
+            path: "my-products",
+              element: <UserProducts />,
           },
         ],
       },
