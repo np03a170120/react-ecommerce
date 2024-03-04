@@ -2,8 +2,8 @@ import React from "react";
 import Layout from "../Layout/Layout";
 import Test from "../app/Dashboard/Test";
 import AddProductForm from "../app/Product/Form/ProductForm";
-import Profile from "../app/user/Profile";
 import Checkout from "../app/user/Checkout";
+import Profile from "../app/user/Profile";
 import UserProducts from "../app/user/UserProducts";
 
 const PrivateRoutes = ({ loginDetail }) => {
@@ -29,7 +29,7 @@ const PrivateRoutes = ({ loginDetail }) => {
           },
           {
             path: "my-products",
-              element: <UserProducts />,
+            element: <UserProducts />,
           },
         ],
       },

@@ -1,16 +1,21 @@
 import { Card } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Image from "../../components/custom/Image";
 
 export default function DashboardProducts(product) {
   const productDetail = product.product;
-  const loginDetailRaw = localStorage.getItem("loginDetail");
-  const loginDetail = JSON.parse(loginDetailRaw);
-
+  const navigate = useNavigate();
   return (
     <>
-      <Link
-        to={`/product/detail/${productDetail?.userId}/${productDetail?._id}`}
+      <div
+        onClick={() =>
+          navigate(
+            `/product/detail/${productDetail?.userId}/${productDetail?._id}`,
+            {
+              state: "",
+            }
+          )
+        }
       >
         <Card className="w-full h-full cursor-pointer hover:shadow-lg transition ease-in-out ">
           <div className="gap-3 h-full">
@@ -30,7 +35,7 @@ export default function DashboardProducts(product) {
             </div>
           </div>
         </Card>
-      </Link>
+      </div>
     </>
   );
 }

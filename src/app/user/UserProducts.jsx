@@ -1,23 +1,102 @@
-import { Card } from "@/components/ui/card";
-import React, { Suspense } from "react";
-import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { fetchUserProducts } from "../../api/requestProcessor";
-import { DashboardProductsFallbackLoader } from "../../components/FallbackLoader/DashboardProductsFallbackLoader";
+
+import { createColumnHelper } from "@tanstack/react-table";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { DotsThreeVertical } from "@phosphor-icons/react";
+import ProductTable from "../../hooks/ProductTable";
 
 const UserProducts = () => {
   const loginDetailRaw = localStorage.getItem("loginDetail");
   const loginDetail = JSON.parse(loginDetailRaw);
 
-  const { data } = fetchUserProducts({ loginDetail });
+  const { data, isLoading: loading } = fetchUserProducts({ loginDetail });
 
   const products = data?.data.data;
+
+  const columnHelper = createColumnHelper();
+
+  const navigate = useNavigate();
+
+  const edit = { edit: true };
+
+  const columns = [
+    columnHelper.accessor("name", {
+      header: "Product",
+    }),
+    columnHelper.accessor("price", {
+      header: "Price",
+    }),
+    columnHelper.accessor("category.category", {
+      header: "Category",
+    }),
+    {
+      id: "actions",
+      header: "Action",
+      cell: ({ row }) => {
+        const product = row.original;
+
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <DotsThreeVertical size={18} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() =>
+                  navigate(
+                    `/product/detail/${product?.userId}/${product?._id}`,
+                    { state: "" }
+                  )
+                }
+              >
+                Preview
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() =>
+                  navigate(
+                    `/product/detail/${product?.userId}/${product?._id}`,
+                    { state: edit }
+                  )
+                }
+              >
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem>Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      },
+    },
+  ];
 
   return (
     <>
       <h3 className="scroll-m-20 text-1xl font-semibold mb-6 tracking-tight">
         My Products
       </h3>
-      <div className="grid grid-cols-2 gap-4">
+      {products && (
+        <div className="table-container">
+          <ProductTable columns={columns} data={data?.data.data} />
+        </div>
+      )}
+      {/* <div className="grid grid-cols-2 gap-4">
         {products &&
           products.map((productDetail, index) => (
             <>
@@ -44,7 +123,7 @@ const UserProducts = () => {
               </Suspense>
             </>
           ))}
-      </div>
+      </div> */}
     </>
   );
 };
