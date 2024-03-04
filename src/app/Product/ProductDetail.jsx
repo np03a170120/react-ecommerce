@@ -1,15 +1,15 @@
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 import React, { Suspense, useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import {
   fetchProductDetail,
   useCategoryList,
   usePurchaseEditProduct,
 } from "../../api/requestProcessor";
-import { Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -18,10 +18,10 @@ import ProductDetailFallbackLoader from "../../components/FallbackLoader/Product
 import Image from "../../components/custom/Image";
 import { CartContext } from "../../providers/useCartContext";
 
-import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 
 const ProductDetail = () => {
+  const location = useLocation();
   let { userId, productId } = useParams();
   const [edit, setEdit] = useState(false);
   const loginDetailRaw = localStorage.getItem("loginDetail");
@@ -117,6 +117,14 @@ const ProductDetail = () => {
       }
     );
   };
+
+  useEffect(() => {
+    if (isUserProduct) {
+      setEdit(location.state.edit);
+    } else {
+      setEdit(false);
+    }
+  }, [isUserProduct]);
 
   return (
     <GlobalLayout>
