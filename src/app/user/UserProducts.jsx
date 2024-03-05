@@ -93,70 +93,72 @@ const UserProducts = () => {
 
   return (
     <>
-      <div className="flex justify-between">
-        <h3 className="scroll-m-20 text-1xl font-semibold mb-6 tracking-tight">
-          My Products
-        </h3>
-        <div className="flex gap-3 items-top">
-          <Input
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            className="h-[2.1rem]"
-            size="xs"
-            type="text"
-            placeholder="Search..."
-          />
-          <Button
-            onClick={() => setCardView(0)}
-            variant={cardView === 0 ? "default" : "secondary"}
-            size="xs"
-          >
-            <Table size={18} />
-          </Button>
-          <Button
-            onClick={() => setCardView(1)}
-            variant={cardView === 1 ? "default" : "secondary"}
-            size="xs"
-          >
-            <GridFour size={18} />
-          </Button>
-        </div>
-      </div>
-
-      {cardView === 0 && (
-        <>
-          {products && (
-            <div className="table-container">
-              <ProductTable
-                globalFilter={globalFilter}
-                columns={columns}
-                data={data?.data.data}
-              />
-            </div>
-          )}
-        </>
-      )}
-
-      {cardView === 1 && (
-        <>
-          <div className="grid grid-cols-2 gap-4">
-            {products &&
-              products.map(
-                (productDetail, index) =>
-                  (globalFilter === "" ||
-                    productDetail.name
-                      .toLowerCase()
-                      .includes(globalFilter.toLowerCase())) && (
-                    <UserProductCard
-                      key={index}
-                      globalFilter={globalFilter}
-                      productDetail={productDetail}
-                    />
-                  )
-              )}
+      <div className="border px-8 py-6 rounded-[6px] bg-gray-50">
+        <div className="flex justify-between ">
+          <h3 className="scroll-m-20 text-1xl font-semibold mb-6 tracking-tight">
+            My Products
+          </h3>
+          <div className="flex gap-3 items-top">
+            <Input
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="h-[2.1rem]"
+              size="xs"
+              type="text"
+              placeholder="Search..."
+            />
+            <Button
+              onClick={() => setCardView(0)}
+              variant={cardView === 0 ? "default" : "secondary"}
+              size="xs"
+            >
+              <Table size={18} />
+            </Button>
+            <Button
+              onClick={() => setCardView(1)}
+              variant={cardView === 1 ? "default" : "secondary"}
+              size="xs"
+            >
+              <GridFour size={18} />
+            </Button>
           </div>
-        </>
-      )}
+        </div>
+
+        {cardView === 0 && (
+          <>
+            {products && (
+              <div className="table-container">
+                <ProductTable
+                  globalFilter={globalFilter}
+                  columns={columns}
+                  data={data?.data.data}
+                />
+              </div>
+            )}
+          </>
+        )}
+
+        {cardView === 1 && (
+          <>
+            <div className="grid grid-cols-2 gap-4">
+              {products &&
+                products.map(
+                  (productDetail, index) =>
+                    (globalFilter === "" ||
+                      productDetail.name
+                        .toLowerCase()
+                        .includes(globalFilter.toLowerCase())) && (
+                      <UserProductCard
+                        key={index}
+                        globalFilter={globalFilter}
+                        productDetail={productDetail}
+                      />
+                    )
+                )}
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 };
