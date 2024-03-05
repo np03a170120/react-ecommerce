@@ -12,13 +12,19 @@ import {
 import {
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-export default function ProductTable({ columns, data }) {
+
+export default function ProductTable({ columns, data, globalFilter }) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      globalFilter: globalFilter,
+    },
   });
 
   return (
