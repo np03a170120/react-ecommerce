@@ -104,6 +104,7 @@ export const useSignUpLogin = () => {
 
 export const usePostProduct = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   return useMutation({
     mutationKey: userURLs.postProduct.key,
     mutationFn({ productData, loginDetail }) {
@@ -121,6 +122,7 @@ export const usePostProduct = () => {
         description: data.data.message,
         variant: "success",
       });
+      navigate(0);
     },
     onError: (error) => {
       toast({
