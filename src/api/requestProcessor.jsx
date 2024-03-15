@@ -40,6 +40,10 @@ const userURLs = {
     url: "user-product",
     key: "EDIT_USER_PRODUCT",
   },
+  deleteUserProduct: {
+    url: "user-product",
+    key: "DELETE_USER_PRODUCT",
+  },
 };
 
 export const useSignUpUser = () => {
@@ -247,6 +251,39 @@ export const usePurchaseEditProduct = () => {
       return axiosClient.put(
         `${userURLs.editUserProduct.url}/${userId}/${productId}`,
         productEditedData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${loginDetail.access_token}`,
+          },
+        }
+      );
+    },
+    onSuccess: (data) => {
+      toast({
+        title: "Success",
+        description: data.data.message,
+        variant: "success",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
+  });
+};
+
+export const usePurchaseDeteProduct = () => {
+  const { toast } = useToast();
+  return useMutation({
+    mutationKey: userURLs.deleteUserProduct.key,
+    mutationFn({ loginDetail, userId, productId }) {
+      return axiosClient.delete(
+        `${userURLs.deleteUserProduct.url}/${userId}/${productId}`,
+
         {
           headers: {
             "Content-Type": "multipart/form-data",
