@@ -8,8 +8,19 @@ import Select from "react-select";
 import {
   fetchProductDetail,
   useCategoryList,
+  usePurchaseDeteProduct,
   usePurchaseEditProduct,
 } from "../../api/requestProcessor";
+
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../../components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -21,12 +32,23 @@ import { CartContext } from "../../providers/useCartContext";
 import { Controller, useForm } from "react-hook-form";
 
 const ProductDetail = () => {
-  const location = useLocation();
   let { userId, productId } = useParams();
+  const { data: category } = useCategoryList();
+  const { data, isPending, isFetchedAfterMount } = fetchProductDetail({
+    userId,
+    productId,
+  });
+  const productDetail = data?.data.data;
+
+  const [open, setOpen] = useState(false);
+  const location = useLocation();
+
   const [edit, setEdit] = useState(false);
   const loginDetailRaw = localStorage.getItem("loginDetail");
   const loginDetail = JSON.parse(loginDetailRaw);
   const access_token = loginDetail?.access_token;
+  const { mutate: deleteProduct, isPending: deleteLoading } =
+    usePurchaseDeteProduct();
 
   const {
     control,
@@ -37,14 +59,6 @@ const ProductDetail = () => {
     // resolver: yupResolver(""),
   });
 
-  const { data, isPending, isFetchedAfterMount } = fetchProductDetail({
-    userId,
-    productId,
-  });
-
-  const { data: category } = useCategoryList();
-
-  const productDetail = data?.data.data;
   const [quantity, seQuantity] = useState(1);
 
   const handleIncreaseQuantity = () => {
@@ -73,6 +87,24 @@ const ProductDetail = () => {
     if (key === "Backspace" || key === "Delete") {
       seQuantity(1);
     }
+  };
+
+  const handleDeleteProduct = () => {
+    const userId = productDetail?.userId;
+    const productId = productDetail?._id;
+    deleteProduct(
+      { loginDetail, userId, productId },
+      {
+        onSuccess: () => {
+          setOpen(false);
+          navigate(-1);
+          toast({
+            title: `successfully deleted`,
+            variant: "success",
+          });
+        },
+      }
+    );
   };
 
   const [availableQuantity, setAvailableQuantity] = useState();
@@ -118,13 +150,20 @@ const ProductDetail = () => {
     );
   };
 
+  // useEffect(() => {
+  //   if (isUserProduct) {
+  //     setEdit(location.state.edit);
+  //   } else {
+  //     setEdit(false);
+  //   }
+  // }, [isUserProduct]);
   useEffect(() => {
-    if (isUserProduct) {
+    if (isUserProduct && location.state) {
       setEdit(location.state.edit);
     } else {
       setEdit(false);
     }
-  }, [isUserProduct]);
+  }, [isUserProduct, location.state]);
 
   return (
     <GlobalLayout>
@@ -132,13 +171,20 @@ const ProductDetail = () => {
         {isFetchedAfterMount ? (
           <Suspense fallback={<ProductDetailFallbackLoader />}>
             {isUserProduct && (
-              <Button
-                className="w-[200px] float-end mb-6"
-                onClick={() => setEdit((prev) => !prev)}
-                variant="outline"
-              >
-                {!edit ? "Edit page" : "Initial Page"}
-              </Button>
+              <>
+                <div className="flex gap-4 flex-end items-center mb-6 justify-end">
+                  <Button variant="destructive" onClick={() => setOpen(true)}>
+                    Delete Product{" "}
+                  </Button>
+                  <Button
+                    className="w-[200px] float-end "
+                    onClick={() => setEdit((prev) => !prev)}
+                    variant="outline"
+                  >
+                    {!edit ? "Edit page" : "Initial Page"}
+                  </Button>
+                </div>
+              </>
             )}
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="grid md:grid-cols-2 justify-between w-full px-4  gap-6 lg:gap-12 ">
@@ -358,16 +404,58 @@ const ProductDetail = () => {
                           type="button"
                           variant="outline"
                           size="lg"
+                          className={
+                            isUserProduct
+                              ? "cursor-not-allowed	 pointer-events-none "
+                              : null
+                          }
                         >
                           Add to Cart
                         </Button>
-                        <Button size="lg">Buy</Button>
+                        <Button
+                          className={
+                            isUserProduct
+                              ? "pointer-events-none cursor-not-allowed	 "
+                              : null
+                          }
+                          size="lg"
+                        >
+                          Buy
+                        </Button>
                       </div>
                     </>
                   )}
                 </div>
               </div>
             </form>
+            <Dialog modal open={open} onOpenChange={setOpen}>
+              <DialogContent className="p-6 pb-2">
+                <DialogHeader>
+                  <DialogTitle className="mb-2">Delete product?</DialogTitle>
+                  <DialogDescription>
+                    Do you want to delete{" "}
+                    <span className="font-bold">`{productDetail?.name}`</span>?
+                    Deleting this product cannot be undone.
+                  </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DialogClose>
+                  <Button
+                    type="button"
+                    onClick={() => handleDeleteProduct()}
+                    variant="destructive"
+                  >
+                    {deleteLoading === true ? (
+                      <Loader2 className=" h-4 w-4 animate-spin" />
+                    ) : (
+                      "Delete"
+                    )}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </Suspense>
         ) : (
           <ProductDetailFallbackLoader />

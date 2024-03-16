@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import { GridFour, Table } from "@phosphor-icons/react";
+import { Loader2 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
 import {
   fetchUserProducts,
   usePurchaseDeteProduct,
 } from "../../api/requestProcessor";
-import { Loader2 } from "lucide-react";
 
 import { createColumnHelper } from "@tanstack/react-table";
 
@@ -23,21 +23,25 @@ import {
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
 } from "../../components/ui/dialog";
 
 import { DotsThreeVertical } from "@phosphor-icons/react";
 import ProductTable from "../../hooks/ProductTable";
 import UserProductCard from "./Product/UserProductCard";
-import { Toast } from "@radix-ui/react-toast";
 
 const UserProducts = () => {
+  const [currentProduct, setCurrentProduct] = useState({
+    userId: "",
+    productId: "",
+    produtName: "",
+  });
+  const [open, setOpen] = useState(false);
   const [cardView, setCardView] = useState(0);
   const [globalFilter, setGlobalFilter] = useState("");
   const loginDetailRaw = localStorage.getItem("loginDetail");
@@ -56,25 +60,41 @@ const UserProducts = () => {
 
   const edit = { edit: true };
 
-  const handleDeleteProduct = (productId, userId) => {
+  const handleSelectedProduct = (userId, productId, productName) => {
+    setOpen(true);
+    setCurrentProduct({
+      productId: productId,
+      userId: userId,
+      productName: productName,
+    });
+  };
+
+  const handleDeleteProduct = () => {
+    const userId = currentProduct.userId;
+    const productId = currentProduct.productId;
     deleteProduct(
       { loginDetail, userId, productId },
       {
-        onSuccess: () => {},
+        onSuccess: () => {
+          setOpen(false);
+          navigate(0);
+          toast({
+            title: `successfully deleted`,
+            variant: "success",
+          });
+        },
       }
     );
   };
 
-  //deleting state toast
-
-  // useEffect(() => {
-  //   if (deleteLoading) {
-  //     toast({
-  //       title: "Deleting.....",
-  //       variant: "destructive",
-  //     });
-  //   }
-  // }, [deleteLoading]);
+  useEffect(() => {
+    if (deleteLoading) {
+      toast({
+        title: "Deleting.....",
+        variant: "destructive",
+      });
+    }
+  }, [deleteLoading]);
 
   const columns = [
     columnHelper.accessor("name", {
@@ -93,7 +113,7 @@ const UserProducts = () => {
         const product = row.original;
 
         return (
-          <Dialog modal>
+          <>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="h-8 w-8 p-0">
@@ -124,40 +144,20 @@ const UserProducts = () => {
                 >
                   Edit
                 </DropdownMenuItem>
-                <DialogTrigger className="w-full">
-                  <DropdownMenuItem>Delete</DropdownMenuItem>
-                </DialogTrigger>
+                <DropdownMenuItem
+                  onClick={() =>
+                    handleSelectedProduct(
+                      product?.userId,
+                      product?._id,
+                      product?.name
+                    )
+                  }
+                >
+                  Delete
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <DialogContent className="p-6 pb-2">
-              <DialogHeader>
-                <DialogTitle className="mb-2">Delete product?</DialogTitle>
-                <DialogDescription>
-                  Do you want to delete{" "}
-                  <span className="font-bold">`{product?.name}`</span>? Deleting
-                  this product cannot be undone.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button variant="outline">Cancel</Button>
-                </DialogClose>
-                <Button
-                  type="button"
-                  onClick={() =>
-                    handleDeleteProduct(product?.userId, product?._id)
-                  }
-                  variant="destructive"
-                >
-                  {deleteLoading === true ? (
-                    <Loader2 className=" h-4 w-4 animate-spin" />
-                  ) : (
-                    "Delete"
-                  )}
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+          </>
         );
       },
     },
@@ -231,6 +231,35 @@ const UserProducts = () => {
           </>
         )}
       </div>
+
+      <Dialog modal open={open} onOpenChange={setOpen}>
+        <DialogContent className="p-6 pb-2">
+          <DialogHeader>
+            <DialogTitle className="mb-2">Delete product?</DialogTitle>
+            <DialogDescription>
+              Do you want to delete{" "}
+              <span className="font-bold">`{currentProduct.productName}`</span>?
+              Deleting this product cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button
+              type="button"
+              onClick={() => handleDeleteProduct()}
+              variant="destructive"
+            >
+              {deleteLoading === true ? (
+                <Loader2 className=" h-4 w-4 animate-spin" />
+              ) : (
+                "Delete"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
