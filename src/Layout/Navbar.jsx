@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-
 import {
   CheckCircle,
   CodesandboxLogo,
@@ -19,12 +18,16 @@ import {
 } from "@phosphor-icons/react";
 import { CreditCard, LogOut, User } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-
 import AddProduct from "../app/Product/AddProduct";
 import Cart from "../app/user/Cart";
 import logo from "../assets/image/logo.png";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query"; // Import useQuery from react-query
+import axios from "axios"; // Import axios for making API requests
 
 const Navbar = ({ loginDetail }) => {
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.clear("loginDetail");
@@ -33,6 +36,46 @@ const Navbar = ({ loginDetail }) => {
     navigate(0);
   };
   const profileImage = loginDetail?.image;
+
+  const { data, refetch, isError, isRefetching } = useQuery({
+    queryKey: ["test"],
+    queryFn: async () => {
+      {
+        return await axios
+          .get(
+            `https://ecommerce-backend-gr3e.onrender.com/api/products?productName=${searchValue}`
+          )
+          .then((response) => response?.data)
+          .catch((err) => {
+            throw new Error(err.response?.data.message);
+          });
+      }
+    },
+  });
+
+  function debounce(func, delay) {
+    let timeoutId;
+    return function () {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(this, arguments);
+      }, delay);
+    };
+  }
+  useEffect(() => {
+    const debouncedRefetch = debounce(refetch, 3000);
+    debouncedRefetch();
+  }, [searchValue]);
+
+  useEffect(() => {
+    setSearchResult(data?.data);
+  }, [data, isRefetching]);
+
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value);
+  };
 
   return (
     <>
@@ -44,11 +87,28 @@ const Navbar = ({ loginDetail }) => {
             src={logo}
             alt=""
           />
-          <div className="flex w-full  items-center space-x-2 max-w-[40rem]">
-            <Input type="text" placeholder="Search..." />
-            <Button variant="secondary">
+          <div className="flex relative w-full  items-center space-x-2 max-w-[40rem]">
+            <Input
+              onChange={(e) => handleSearch(e)}
+              type="text"
+              placeholder="Search..."
+            />
+            <Button variant="secondary" onClick={() => refetch()}>
               <MagnifyingGlass size={18} />
             </Button>
+            <div
+              className={`absolute top-10 right-0 w-full h-[12rem] bg-gray-100 ${
+                searchValue ? "block" : "hidden"
+              }`}
+            >
+              <ul>
+                {searchResult?.map((item) => (
+                  <>
+                    <h6>{item.name}</h6>
+                  </>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="flex gap-8 items-center">
