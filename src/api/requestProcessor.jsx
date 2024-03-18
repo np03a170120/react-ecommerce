@@ -44,6 +44,10 @@ const userURLs = {
     url: "user-product",
     key: "DELETE_USER_PRODUCT",
   },
+  search: {
+    url: "products?",
+    key: "SEARCH_PRODUCT",
+  },
 };
 
 export const useSignUpUser = () => {
@@ -200,6 +204,20 @@ export const useProductList = () => {
   });
 };
 
+export const fetchSearchProduct = ({ searchValue }) => {
+  return useQuery({
+    queryFn: async () =>
+      await axiosClient.get(`${userURLs.search.url}productId=${searchValue}`),
+    queryKey: [userURLs.search.key],
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
+  });
+};
 export const fetchProductDetail = ({ userId, productId }) => {
   const { toast } = useToast();
   return useQuery({

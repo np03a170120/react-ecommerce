@@ -23,12 +23,10 @@ const refreshAccessToken = async () => {
 axiosClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log(error, "error");
     if (error.response && error.response.status == 401) {
       // Access token has expired, refresh it
       try {
         const newAccessToken = await refreshAccessToken();
-        console.log(newAccessToken, "test");
         // Update the request headers with the new access token
         error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
