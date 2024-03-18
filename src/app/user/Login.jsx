@@ -30,7 +30,7 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(SchemaLogin),
+    // resolver: yupResolver(SchemaLogin),
   });
 
   const { mutate: loginUserMutation, isPending } = useSignUpLogin();
