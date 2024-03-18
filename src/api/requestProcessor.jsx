@@ -92,6 +92,7 @@ export const useSignUpLogin = () => {
         access_token: data.data?.data.data.access_token,
         isVerified: data.data?.data.data.isVerified,
         _id: data.data?.data.data._id,
+        refreshToken: data.data?.data.data.refresh_token,
       };
       const loginDetail = JSON.stringify(loginDetailRaw);
       localStorage.setItem("loginDetail", loginDetail);

@@ -12,6 +12,7 @@ import { CartProvider } from "./providers/useCartContext";
 import { GoogleLogin } from "@react-oauth/google";
 import { useToast } from "@/components/ui/use-toast";
 import { jwtDecode } from "jwt-decode";
+import axiosClient from "./api/axios";
 
 function App() {
   const queryClient = new QueryClient();
