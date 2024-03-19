@@ -207,8 +207,9 @@ export const useProductList = () => {
 export const fetchSearchProduct = ({ searchValue }) => {
   return useQuery({
     queryFn: async () =>
-      await axiosClient.get(`${userURLs.search.url}productId=${searchValue}`),
+      await axiosClient.get(`${userURLs.search.url}productName=${searchValue}`),
     queryKey: [userURLs.search.key],
+    enabled: false,
     onError: (error) => {
       toast({
         title: "Error",
@@ -218,6 +219,7 @@ export const fetchSearchProduct = ({ searchValue }) => {
     },
   });
 };
+
 export const fetchProductDetail = ({ userId, productId }) => {
   const { toast } = useToast();
   return useQuery({
