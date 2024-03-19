@@ -17,13 +17,12 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import { CreditCard, LogOut, User } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { fetchSearchProduct } from "../api/requestProcessor";
 import AddProduct from "../app/Product/AddProduct";
 import Cart from "../app/user/Cart";
 import logo from "../assets/image/logo.png";
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query"; // Import useQuery from react-query
-import axios from "axios"; // Import axios for making API requests
 
 const Navbar = ({ loginDetail }) => {
   const [searchValue, setSearchValue] = useState("");
@@ -37,20 +36,8 @@ const Navbar = ({ loginDetail }) => {
   };
   const profileImage = loginDetail?.image;
 
-  const { data, refetch, isError, isRefetching } = useQuery({
-    queryKey: ["test"],
-    queryFn: async () => {
-      {
-        return await axios
-          .get(
-            `https://ecommerce-backend-gr3e.onrender.com/api/products?productName=${searchValue}`
-          )
-          .then((response) => response?.data)
-          .catch((err) => {
-            throw new Error(err.response?.data.message);
-          });
-      }
-    },
+  const { data, refetch, isRefetching, isError } = fetchSearchProduct({
+    searchValue,
   });
 
   function debounce(func, delay) {
@@ -64,13 +51,14 @@ const Navbar = ({ loginDetail }) => {
       }, delay);
     };
   }
+
   useEffect(() => {
-    const debouncedRefetch = debounce(refetch, 3000);
+    const debouncedRefetch = debounce(refetch, 200);
     debouncedRefetch();
   }, [searchValue]);
 
   useEffect(() => {
-    setSearchResult(data?.data);
+    setSearchResult(data?.data.data);
   }, [data, isRefetching]);
 
   const handleSearch = (e) => {
@@ -97,14 +85,16 @@ const Navbar = ({ loginDetail }) => {
               <MagnifyingGlass size={18} />
             </Button>
             <div
-              className={`absolute top-10 right-0 w-full h-[12rem] bg-gray-100 ${
+              className={`absolute rounded-sm top-12  p-2 left-[-0.5rem] w-[36rem] h-[12rem] bg-white shadow-xl  ${
                 searchValue ? "block" : "hidden"
               }`}
             >
               <ul>
                 {searchResult?.map((item) => (
                   <>
-                    <h6>{item.name}</h6>
+                    <h6 className="text-sm mb-2 cursor-pointer hover:text-gray-500">
+                      {item.name}
+                    </h6>
                   </>
                 ))}
               </ul>
