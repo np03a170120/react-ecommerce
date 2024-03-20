@@ -220,6 +220,20 @@ export const fetchSearchProduct = ({ searchValue }) => {
   });
 };
 
+export const featchSearchProductViaUrl = (productUrl) => {
+  return useQuery({
+    queryFn: async () => await axiosClient.get(`products${productUrl}`),
+    queryKey: ["productSearch"],
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        variant: "destructive",
+      });
+    },
+  });
+};
+
 export const fetchProductDetail = ({ userId, productId }) => {
   const { toast } = useToast();
   return useQuery({

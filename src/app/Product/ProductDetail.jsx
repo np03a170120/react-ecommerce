@@ -150,13 +150,6 @@ const ProductDetail = () => {
     );
   };
 
-  // useEffect(() => {
-  //   if (isUserProduct) {
-  //     setEdit(location.state.edit);
-  //   } else {
-  //     setEdit(false);
-  //   }
-  // }, [isUserProduct]);
   useEffect(() => {
     if (isUserProduct && location.state) {
       setEdit(location.state.edit);

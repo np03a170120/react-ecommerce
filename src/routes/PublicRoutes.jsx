@@ -3,6 +3,7 @@ import Home from "../app/Home/Home";
 import Login from "../app/user/Login";
 import SignUp from "../app/user/SignUp";
 import ProductDetail from "../app/Product/ProductDetail";
+import SearchProduct from "../app/Product/SearchProduct";
 
 export default function PublicRoutes({ loginDetail }) {
   return [
@@ -21,6 +22,10 @@ export default function PublicRoutes({ loginDetail }) {
     {
       path: "/",
       element: <Home loginDetail={loginDetail} />,
+    },
+    {
+      path: "/products",
+      element: <SearchProduct loginDetail={loginDetail} />,
     },
 
     // { path: "*", element: <Navigate to="/" replace /> },
