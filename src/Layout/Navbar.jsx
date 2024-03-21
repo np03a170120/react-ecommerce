@@ -28,14 +28,9 @@ const Navbar = ({ loginDetail }) => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.clear("loginDetail");
-    localStorage.clear("cartItems");
-    navigate("/");
-    navigate(0);
-  };
+  const productSearchName = searchParams.get("productName");
+
   const profileImage = loginDetail?.image;
 
   const { data, refetch, isRefetching, isError } = fetchSearchProduct({
@@ -83,7 +78,17 @@ const Navbar = ({ loginDetail }) => {
     }
   };
 
-  const productSearchName = searchParams.get("productName");
+  useEffect(() => {
+    setFocused(false);
+  }, [productSearchName]);
+
+  const handleLogout = () => {
+    localStorage.clear("loginDetail");
+    localStorage.clear("cartItems");
+    navigate("/");
+    navigate(0);
+  };
+
   return (
     <>
       <div className="border-b shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] mb-6 py-3 sticky top-0 z-50 bg-white">
@@ -96,6 +101,7 @@ const Navbar = ({ loginDetail }) => {
           />
           <div className="flex relative w-full  items-center space-x-2 max-w-[40rem]">
             <Input
+              key={productSearchName}
               onKeyDown={handleKeyDown}
               defaultValue={productSearchName}
               onFocus={onFocus}

@@ -231,6 +231,7 @@ export const featchSearchProductViaUrl = (productUrl) => {
         variant: "destructive",
       });
     },
+    enabled: false,
   });
 };
 
