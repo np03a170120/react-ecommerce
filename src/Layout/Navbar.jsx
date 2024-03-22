@@ -113,22 +113,20 @@ const Navbar = ({ loginDetail }) => {
             <Button variant="secondary" onClick={handleSearchSubmit}>
               <MagnifyingGlass size={18} />
             </Button>
+
             <div
-              className={`absolute rounded-sm top-12  p-2 left-[-0.5rem] w-[36rem] h-[12rem] bg-white shadow-xl  ${
-                focused ? "opacity-100" : "opacity-0"
+              className={`absolute  rounded-sm top-12  p-2 left-[-0.5rem] w-[36rem] h-[12rem] bg-white shadow-xl  ${
+                focused ? "opacity-100  " : "opacity-0  "
               }`}
             >
               <ul>
                 {searchResult?.map((item) => (
                   <>
                     <h6
-                      onClick={() => {
-                        {
-                          navigate(`/products?productName=${item.name}`),
-                            localStorage.setItem("search", item.name);
-                        }
-                      }}
-                      className="text-sm mb-2 cursor-pointer hover:text-gray-500"
+                      onClick={() =>
+                        navigate(`/products?productName=${item.name}`)
+                      }
+                      className={`text-sm mb-2 cursor-pointer hover:text-gray-500 `}
                     >
                       {item.name}
                     </h6>
