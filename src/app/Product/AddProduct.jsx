@@ -23,7 +23,6 @@ const AddProduct = () => {
           </Button>
         </DialogTrigger>
         <DialogContent className="">
-          <DialogHeader className="mb-2"></DialogHeader>
           <AddProductForm />
         </DialogContent>
       </Dialog>
