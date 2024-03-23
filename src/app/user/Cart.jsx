@@ -63,8 +63,8 @@ const Cart = ({ loginDetail }) => {
               </span>
             </div>
           </DrawerTrigger>
-          <DrawerContent className="container w-[750px]">
-            <DrawerHeader className="pl-0">
+          <DrawerContent className="container w-[550px] rounded-md outline-none px-6">
+            <DrawerHeader className="pl-0 !mb-4 mt-4">
               <DrawerTitle> Cart Items</DrawerTitle>
               <DrawerDescription>Total Products: {total}</DrawerDescription>
             </DrawerHeader>
@@ -72,7 +72,7 @@ const Cart = ({ loginDetail }) => {
               <div className="grid grid-cols-1 gap-4 flex-1">
                 {cartItems.map((item, index) => (
                   <Card
-                    className=" relative transition ease-in-out  flex border p-4  hover:shadow-lg cursor-pointer  items-center"
+                    className=" relative transition pb-4 !shadow-none  border-0 border-b ease-in-out  rounded-none  flex filter-none   cursor-pointer  items-center"
                     key={index}
                   >
                     <div className="flex gap-4">
@@ -81,18 +81,20 @@ const Cart = ({ loginDetail }) => {
                           <Image
                             src={item?.productImages[0]?.url}
                             alt={item?.title}
-                            className="rounded-md h-24"
+                            className="rounded-md h-20"
                           />
                         </>
                       )}
                       <div className="flex flex-col">
-                        <h1 className="text-lg font-bold text-left">
+                        <h1 className="text-md font-bold text-left pr-12">
                           {item?.name}
                         </h1>
-                        <p className="text-gray-600 text-left">{item?.price}</p>
+                        <p className="text-gray-600 text-left">
+                          Rs.{item?.price}
+                        </p>
                         <div className="flex gap-4 mt-2 items-center ">
                           <Button
-                            size="xs"
+                            className="h-2 w-2 p-2 bg-none  hover:bg-gray-200"
                             variant="secondary"
                             disabled={item.selectedQuantity <= 1}
                             onClick={() => {
@@ -104,9 +106,9 @@ const Cart = ({ loginDetail }) => {
                           >
                             -
                           </Button>
-                          <p>{item?.selectedQuantity}</p>
+                          <p className="text-sm">{item?.selectedQuantity}</p>
                           <Button
-                            size="xs"
+                            className="h-2 w-2 p-2 bg-none  hover:bg-gray-200 "
                             variant="secondary"
                             disabled={item.quantity === item.selectedQuantity}
                             onClick={() => {
@@ -128,20 +130,21 @@ const Cart = ({ loginDetail }) => {
                     />
                   </Card>
                 ))}
-                <div>
+                <div className="flex mt-6">
                   {cartItems.length > 0 ? (
-                    <div className="  w-full">
-                      <h1 className="text-lg font-bold">
-                        Total: ${getCartTotal()}
-                      </h1>
+                    <div className=" flex justify-between items-center w-full">
                       <Button
+                        size="sm"
+                        variant="secondary"
                         onClick={() => {
                           clearCart();
                         }}
                       >
                         Clear cart
                       </Button>
-                      <Link to="/product/checkout">Proceed to Checkout</Link>
+                      <Button size="sm">
+                        <Link to="/product/checkout">Proceed to Checkout</Link>
+                      </Button>
                     </div>
                   ) : (
                     <h1 className="text-lg font-bold">Your cart is empty</h1>
@@ -149,12 +152,6 @@ const Cart = ({ loginDetail }) => {
                 </div>
               </div>
             </div>
-            <DrawerFooter>
-              {/* <Button>Submit</Button>
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose> */}
-            </DrawerFooter>
           </DrawerContent>
         </Drawer>
       )}
