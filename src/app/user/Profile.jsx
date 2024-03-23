@@ -1,5 +1,9 @@
 import { Card } from "@/components/ui/card";
-import { PictureInPicture, ShoppingCart } from "@phosphor-icons/react";
+import {
+  PictureInPicture,
+  ShoppingCart,
+  SquaresFour,
+} from "@phosphor-icons/react";
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import GlobalLayout from "../../Layout/GlobalLayout";
@@ -17,13 +21,20 @@ const Profile = ({ loginDetail }) => {
             <ShoppingCart size={18} />
             <h3 className="text-sm">Add Product</h3>
           </NavLink>
+
           <NavLink
             to="add-banner"
             className={"flex font-medium gap-2 items-center px-2 py-2"}
           >
             <PictureInPicture size={18} />
-
             <h3 className="text-sm">Add Banner</h3>
+          </NavLink>
+          <NavLink
+            to="my-products"
+            className={"flex font-medium gap-2 items-center px-2 py-2"}
+          >
+            <SquaresFour size={18} />
+            <h3 className="text-sm">My products</h3>
           </NavLink>
         </div>
         <div className="w-[50%]">

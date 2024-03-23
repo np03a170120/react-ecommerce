@@ -11,13 +11,18 @@ export default function Home({ loginDetail }) {
     import("../../app/Product/DashboardProducts")
   );
 
+  const productList = data?.data.data.filter(
+    (item) => item.userId !== loginDetail?._id
+  );
+
   return (
     <>
       <GlobalLayout>
         <Banner />
         <div className="grid md:grid-cols-3 xl:grid-cols-5 gap-4">
-          {data?.data.data.map((data, index) => {
-            const product = data;
+          {productList?.map((item, index) => {
+            const product = item;
+
             return (
               <div key={index}>
                 {isPending && <DashboardProductsFallbackLoader />}

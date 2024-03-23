@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-
 import {
   CheckCircle,
   CodesandboxLogo,
@@ -18,21 +17,77 @@ import {
   WarningCircle,
 } from "@phosphor-icons/react";
 import { CreditCard, LogOut, User } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { fetchSearchProduct } from "../api/requestProcessor";
 import AddProduct from "../app/Product/AddProduct";
 import Cart from "../app/user/Cart";
 import logo from "../assets/image/logo.png";
 
 const Navbar = ({ loginDetail }) => {
+  const [searchValue, setSearchValue] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const productSearchName = searchParams.get("productName");
+
+  const profileImage = loginDetail?.image;
+
+  const { data, refetch, isRefetching, isError } = fetchSearchProduct({
+    searchValue,
+  });
+
+  function debounce(func, delay) {
+    let timeoutId;
+    return function () {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func.apply(this, arguments);
+      }, delay);
+    };
+  }
+
+  useEffect(() => {
+    const debouncedRefetch = debounce(refetch, 200);
+    debouncedRefetch();
+  }, [searchValue]);
+
+  useEffect(() => {
+    setSearchResult(data?.data.data);
+  }, [data, isRefetching]);
+
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    setSearchParams({ productName: searchValue });
+    navigate(`/products?productName=${encodeURIComponent(searchValue)}`);
+  };
+
+  const [focused, setFocused] = useState(false);
+  const onFocus = () => setFocused(true);
+  const onBlur = () => setFocused(false);
+
+  const handleKeyDown = (e) => {
+    const key = e.key;
+    if (key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
+
+  useEffect(() => {
+    setFocused(false);
+  }, [productSearchName]);
+
   const handleLogout = () => {
     localStorage.clear("loginDetail");
     localStorage.clear("cartItems");
     navigate("/");
     navigate(0);
   };
-  const profileImage = loginDetail?.image;
 
   return (
     <>
@@ -44,11 +99,41 @@ const Navbar = ({ loginDetail }) => {
             src={logo}
             alt=""
           />
-          <div className="flex w-full  items-center space-x-2 max-w-[40rem]">
-            <Input type="text" placeholder="Search..." />
-            <Button variant="secondary">
+          <div className="flex relative w-full  items-center space-x-2 max-w-[40rem]">
+            <Input
+              key={productSearchName}
+              onKeyDown={handleKeyDown}
+              defaultValue={productSearchName}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onChange={(e) => handleSearch(e)}
+              type="text"
+              placeholder="Search..."
+            />
+            <Button variant="secondary" onClick={handleSearchSubmit}>
               <MagnifyingGlass size={18} />
             </Button>
+
+            <div
+              className={`absolute  rounded-sm top-12  p-2 left-[-0.5rem] w-[36rem] h-[12rem] bg-white shadow-xl  ${
+                focused ? "opacity-100  " : "opacity-0  "
+              }`}
+            >
+              <ul>
+                {searchResult?.map((item) => (
+                  <>
+                    <h6
+                      onClick={() =>
+                        navigate(`/products?productName=${item.name}`)
+                      }
+                      className={`text-sm mb-2 cursor-pointer hover:text-gray-500 `}
+                    >
+                      {item.name}
+                    </h6>
+                  </>
+                ))}
+              </ul>
+            </div>
           </div>
 
           <div className="flex gap-8 items-center">

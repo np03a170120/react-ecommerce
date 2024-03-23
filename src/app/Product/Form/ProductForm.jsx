@@ -9,16 +9,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectLabel,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-
 import { Loader2 } from "lucide-react";
 import { uploadProduct } from "../product.schema";
 import { useCategoryList, usePostProduct } from "../../../api/requestProcessor";
@@ -61,12 +51,6 @@ const AddProductForm = () => {
       }
     );
   };
-
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
 
   const sanitizedData = data?.data.data.map(({ _id, categoryName }) => ({
     value: _id,
@@ -130,7 +114,7 @@ const AddProductForm = () => {
         <DialogFooter>
           <Button type="submit">
             {isPending === true ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
               "Save"
             )}

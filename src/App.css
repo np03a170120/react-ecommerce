@@ -10,5 +10,5 @@
   color: white;
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
-  /* border-right: 0.25rem solid rgb(238, 191, 191); */
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
