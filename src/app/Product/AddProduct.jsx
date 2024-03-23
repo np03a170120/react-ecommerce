@@ -16,14 +16,13 @@ const AddProduct = () => {
 
   return (
     <>
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog className="" open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Button variant={"outline"} className="font-medium">
             <PlusCircle size={18} className="mr-1 " /> Add Product
           </Button>
         </DialogTrigger>
-        <DialogContent className="">
-          <DialogHeader className="mb-2"></DialogHeader>
+        <DialogContent className="test">
           <AddProductForm />
         </DialogContent>
       </Dialog>
