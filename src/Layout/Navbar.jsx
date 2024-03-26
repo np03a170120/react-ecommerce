@@ -101,7 +101,7 @@ const Navbar = ({ loginDetail }) => {
             alt=""
           />
           <div
-            onMouseEnter={() => setFocused(true)}
+            onClick={() => setFocused(true)}
             className="flex relative w-full  items-center space-x-2 max-w-[40rem]"
           >
             <Input
@@ -139,6 +139,7 @@ const Navbar = ({ loginDetail }) => {
                       </h6>
                     </>
                   ))}
+                  {searchResult?.length == 0 && <h6>No Result found</h6>}
                 </ul>
               </div>
             </div>
