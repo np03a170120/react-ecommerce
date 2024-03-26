@@ -23,6 +23,7 @@ import { fetchSearchProduct } from "../api/requestProcessor";
 import AddProduct from "../app/Product/AddProduct";
 import Cart from "../app/user/Cart";
 import logo from "../assets/image/logo.png";
+import { twMerge } from "tailwind-merge";
 
 const Navbar = ({ loginDetail }) => {
   const [searchValue, setSearchValue] = useState("");
@@ -68,8 +69,6 @@ const Navbar = ({ loginDetail }) => {
   };
 
   const [focused, setFocused] = useState(false);
-  const onFocus = () => setFocused(true);
-  const onBlur = () => setFocused(false);
 
   const handleKeyDown = (e) => {
     const key = e.key;
@@ -89,6 +88,8 @@ const Navbar = ({ loginDetail }) => {
     navigate(0);
   };
 
+  useEffect(() => {}, []);
+
   return (
     <>
       <div className="border-b shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] mb-6 py-3 sticky top-0 z-50 bg-white">
@@ -99,13 +100,15 @@ const Navbar = ({ loginDetail }) => {
             src={logo}
             alt=""
           />
-          <div className="flex relative w-full  items-center space-x-2 max-w-[40rem]">
+          <div
+            onMouseEnter={() => setFocused(true)}
+            className="flex relative w-full  items-center space-x-2 max-w-[40rem]"
+          >
             <Input
+              onFocus={() => setFocused(true)}
               key={productSearchName}
               onKeyDown={handleKeyDown}
               defaultValue={productSearchName}
-              onFocus={onFocus}
-              onBlur={onBlur}
               onChange={(e) => handleSearch(e)}
               type="text"
               placeholder="Search..."
@@ -115,24 +118,29 @@ const Navbar = ({ loginDetail }) => {
             </Button>
 
             <div
-              className={`absolute  rounded-sm top-12  p-2 left-[-0.5rem] w-[36rem] h-[12rem] bg-white shadow-xl  ${
-                focused ? "opacity-100  " : "opacity-0  "
-              }`}
+              onMouseLeave={() => setFocused(false)}
+              className={twMerge(
+                "absolute  rounded-sm top-12  p-2 left-[-0.5rem] w-[36rem]  bg-white shadow-xl ",
+                focused ? "opacity-100 block" : "opacity-0 hidden"
+              )}
             >
-              <ul>
-                {searchResult?.map((item) => (
-                  <>
-                    <h6
-                      onClick={() =>
-                        navigate(`/products?productName=${item.name}`)
-                      }
-                      className={`text-sm mb-2 cursor-pointer hover:text-gray-500 `}
-                    >
-                      {item.name}
-                    </h6>
-                  </>
-                ))}
-              </ul>
+              <div className=" h-[12rem] overflow-y-scroll">
+                <ul>
+                  {searchResult?.map((item) => (
+                    <>
+                      <h6
+                        onClick={() => {
+                          navigate(`/products?productName=${item.name}`),
+                            setFocused(true);
+                        }}
+                        className={`text-sm mb-2 cursor-pointer hover:text-gray-500 `}
+                      >
+                        {item.name}
+                      </h6>
+                    </>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 

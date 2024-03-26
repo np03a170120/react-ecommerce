@@ -31,7 +31,7 @@ const AddProductForm = () => {
 
   const onSubmit = (data) => {
     const formData = new FormData();
-    formData.append("productImages", data.productImages);
+    formData.append("productImages", data.usePostProduct);
     const productData = {
       userId: loginDetail._id,
       name: data.name,
