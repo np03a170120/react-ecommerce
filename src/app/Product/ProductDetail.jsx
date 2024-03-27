@@ -220,7 +220,6 @@ const ProductDetail = () => {
                         <>
                           <div className="w-full">
                             <Label htmlFor="shortDescription">
-                              {" "}
                               Short Description
                             </Label>
 
@@ -405,17 +404,37 @@ const ProductDetail = () => {
                         >
                           Add to Cart
                         </Button>
-                        <Button
-                          className={
-                            isUserProduct
-                              ? "pointer-events-none cursor-not-allowed	 "
-                              : null
-                          }
-                          size="lg"
-                        >
-                          Buy
-                        </Button>
                       </div>
+                      <Button
+                        onClick={() =>
+                          access_token
+                            ? (addToCart({
+                                ...productDetail,
+                                selectedQuantity: quantity,
+                              }),
+                              addToCartHandler,
+                              navigate("/product/checkout "),
+                              toast({
+                                title: "Success",
+                                description: "Product added to cart",
+                                variant: "success",
+                              }))
+                            : (toast({
+                                description: "Please login to Add to Cart",
+                                variant: "destructive",
+                              }),
+                              navigate("/login"))
+                        }
+                        type="button"
+                        className={
+                          isUserProduct
+                            ? "pointer-events-none cursor-not-allowed	 "
+                            : null
+                        }
+                        size="lg"
+                      >
+                        Buy
+                      </Button>
                     </>
                   )}
                 </div>
