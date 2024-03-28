@@ -7,6 +7,7 @@ import { usePurchaseProduct } from "../../api/requestProcessor";
 import { TrashSimple } from "@phosphor-icons/react";
 import Image from "../../components/custom/Image";
 import { Loader2 } from "lucide-react";
+import GlobalLayout from "../../Layout/GlobalLayout";
 
 const Checkout = ({ loginDetail }) => {
   const { cartItems, clearCart, addToCart, removeProductFromCart } =
@@ -37,7 +38,7 @@ const Checkout = ({ loginDetail }) => {
   };
 
   return (
-    <div>
+    <GlobalLayout>
       <h1>This is checkout</h1>
       {cartItems.map((item, index) => (
         <Card
@@ -102,7 +103,7 @@ const Checkout = ({ loginDetail }) => {
           "Place Order"
         )}
       </Button>
-    </div>
+    </GlobalLayout>
   );
 };
 

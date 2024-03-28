@@ -36,6 +36,7 @@ const Navbar = ({ loginDetail }) => {
 
   const { data, refetch, isRefetching, isError } = fetchSearchProduct({
     searchValue,
+    enabled: true,
   });
 
   function debounce(func, delay) {
@@ -87,8 +88,6 @@ const Navbar = ({ loginDetail }) => {
     navigate("/");
     navigate(0);
   };
-
-  useEffect(() => {}, []);
 
   return (
     <>
@@ -202,11 +201,15 @@ const Navbar = ({ loginDetail }) => {
                             <span>Profile</span>
                           </DropdownMenuItem>
                         </Link>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => navigate("/user/profile/my-products")}
+                        >
                           <CodesandboxLogo className="mr-2 h-4 w-4" />
                           <span>Products</span>
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => navigate("/product/checkout")}
+                        >
                           <CreditCard className="mr-2 h-4 w-4" />
                           <span>Billing</span>
                         </DropdownMenuItem>

@@ -204,12 +204,12 @@ export const useProductList = () => {
   });
 };
 
-export const fetchSearchProduct = ({ searchValue }) => {
+export const fetchSearchProduct = ({ searchValue, enabled }) => {
   return useQuery({
     queryFn: async () =>
       await axiosClient.get(`${userURLs.search.url}productName=${searchValue}`),
     queryKey: [userURLs.search.key],
-    enabled: false,
+    enabled: enabled,
     onError: (error) => {
       toast({
         title: "Error",
@@ -220,7 +220,7 @@ export const fetchSearchProduct = ({ searchValue }) => {
   });
 };
 
-export const featchSearchProductViaUrl = (productUrl) => {
+export const featchSearchProductViaUrl = (productUrl, enabled) => {
   return useQuery({
     queryFn: async () => await axiosClient.get(`products${productUrl}`),
     queryKey: ["productSearch"],
